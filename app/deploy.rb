@@ -1,7 +1,7 @@
-set :application, 'akademija'
+set :application, '2high4you'
 set :repo_url, '#'
 
-set :deploy_to, '/home/kickstart/'
+set :deploy_to, '/home/2high4you/'
 
 set :archive_cache, true
 set :branch, 'master'
