@@ -1,0 +1,16 @@
+services:
+#    sandbox.example:
+#        class: SandboxBundle\Example
+#        arguments: ["@service_id", "plain_value", %parameter%]
+    app.alarmremotecontrol:
+        class: SandboxBundle\Service\AlarmRemoteControl
+        factory: ["@app.alarmremotecontrol_factory", create]
+
+    app.alarmremotecontrol_factory:
+        class: SandboxBundle\Service\AlarmRemoteControlFactory
+        arguments: ["@event_dispatcher"]
+
+    app.event_listener:
+        class: SandboxBundle\Event\EventListener
+        tags:
+            - { name: kernel.event_listener, event: app.pre_create, method: makeChanges }

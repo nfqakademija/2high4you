@@ -1,0 +1,3 @@
+sandbox_homepage:
+    path:     /
+    defaults: { _controller: SandboxBundle:Default:index }
