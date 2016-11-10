@@ -18,7 +18,6 @@ class Advertisement
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
-     * @ORM\OneToMany(targetEntity="Offer",mappedBy="advId")
      * @ORM\OneToMany(targetEntity="Desire", mappedBy="advId")
      */
     private $id;
@@ -52,6 +51,29 @@ class Advertisement
      */
     private $theme;
 
+    /**
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param string $description
+     * @return Advertisement
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+        return $this;
+    }
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="description", type="text")
+     */
+    private $description;
     /**
      * Advertisement constructor.
      * @param int $id
