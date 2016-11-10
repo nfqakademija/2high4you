@@ -1,0 +1,12 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+    <a href="http://127.0.0.1:8000">Index view</a>
+    <h1>{{ id }}</h1>
+    <h1>{{ exchange }}</h1>
+    <h1>Description</h1>
+    <p>{{ offer.name }}</p>
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    {{ form_end(form) }}
+{% endblock %}
