@@ -2,25 +2,46 @@
 <html>
 <head>
     <meta charset="UTF-8" />
-    <title>{% block title %}{{ "My project" }}{% endblock %}</title>
+    <title>{% block title %}{{ "2high4you" }}{% endblock %}</title>
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <link rel="icon" type="image/x-icon" href="{{ asset('images/favicon.ico')}}">
     {% block stylesheets %}
         <link rel="stylesheet" href="{{ asset('css/style.css') }}"/>
     {% endblock %}
     {% block canonical_meta %}{% endblock %}
+
 </head>
 <body>
+
+<div class="title">2high4you</div>
+<ul>
+    <li><a href="#home">Pagrindinis</a></li>
+    <li class="dropdown">
+        <a href="#" class="dropbtn">Kategorijos</a>
+        <div class="dropdown-content">
+            <a href="#">Mokslai</a>
+            <a href="#">Muzika</a>
+            <a href="#">Sportas</a>
+        </div>
+    </li>
+</ul>
+
+
 <div class="container">
     {% block container %}
         {% block header %}
             {% include "::inc/header.html.twig" %}
         {% endblock %}
-        {% block body %}{% endblock %}
+        {% block body %}
+
+
+
+
+        {% endblock %}
     {% endblock %}
 </div>
 {% block footer %}
-{% include "::inc/footer.html.twig" %}
+    {% include "::inc/footer.html.twig" %}
 {% endblock %}
 {% block javascripts %}
     <script src="{{ asset('js/script.js') }}"></script>
