@@ -106,12 +106,12 @@
 {% block body %}
 
 
-    <abs>{% for i in 0..10 %}
+    <abs>{% for offer in offers %}
             <div class="offer">
                 <img src="https://d30y9cdsu7xlg0.cloudfront.net/png/13694-200.png">
-                <h3>Programuoju</h3>
-                <p>Kaunas,Lietuva</p>
-                <button name="details" onclick="location.href = '/details/';">Details</button>
+                <h3>{{ offer.name }}</h3>
+                <p>{{ offer.place }}</p>
+                <button name="details" onclick="location.href = '/details/{{ offer.id }}';">Details</button>
 
             </div>
         {% endfor %}
