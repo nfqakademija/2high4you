@@ -53,13 +53,8 @@ class PopulateDbCommand extends ContainerAwareCommand
         $adv->setCreationTime(new \DateTime('now'));
         $adv->setTheme("Menas");
         $adv->setUserId($user->getId());
+        $adv->setDescription("Mokau tapybos.");
         $em->persist($adv);
-
-
-        $off = new Offer(1);
-        $off->setAdvId($adv->getId());
-        $off->setDescription("Mokau tapybos.");
-        $em->persist($off);
 
         $des = new Desire(1);
         $des->setAdvId($adv->getId());
@@ -80,12 +75,8 @@ class PopulateDbCommand extends ContainerAwareCommand
         $adv->setCreationTime(new \DateTime('now'));
         $adv->setTheme("Matematika");
         $adv->setUserId($user->getId());
+        $adv->setDescription("Mokau matematikos.");
         $em->persist($adv);
-
-        $off = new Offer(2);
-        $off->setAdvId($adv->getId());
-        $off->setDescription("Mokau matematikos.");
-        $em->persist($off);
 
         $des = new Desire(2);
         $des->setAdvId($adv->getId());
@@ -108,13 +99,8 @@ class PopulateDbCommand extends ContainerAwareCommand
         $adv->setCreationTime(new \DateTime('now'));
         $adv->setTheme("Vairavimas");
         $adv->setUserId($user->getId());
+        $adv->setDescription("Mokau vairavimo.");
         $em->persist($adv);
-
-
-        $off = new Offer(3);
-        $off->setAdvId($adv->getId());
-        $off->setDescription("Mokau vairavimo.");
-        $em->persist($off);
 
         $des = new Desire(3);
         $des->setAdvId($adv->getId());
@@ -136,12 +122,8 @@ class PopulateDbCommand extends ContainerAwareCommand
         $adv->setCreationTime(new \DateTime('now'));
         $adv->setTheme("Sokiai");
         $adv->setUserId($user->getId());
+        $adv->setDescription("Mokau sokti.");
         $em->persist($adv);
-
-        $off = new Offer(4);
-        $off->setAdvId($adv->getId());
-        $off->setDescription("Mokau sokti.");
-        $em->persist($off);
 
         $des = new Desire(4);
         $des->setAdvId($adv->getId());
@@ -158,17 +140,8 @@ class PopulateDbCommand extends ContainerAwareCommand
         $adv->setCreationTime(new \DateTime('now'));
         $adv->setTheme("Begimas");
         $adv->setUserId($user->getId());
+        $adv->setDescription("Vedu begimo treniruotes.");
         $em->persist($adv);
-
-        $off = new Offer(5);
-        $off->setAdvId($adv->getId());
-        $off->setDescription("Mokau begioti.");
-        $em->persist($off);
-
-        $off = new Offer(6);
-        $off->setAdvId($adv->getId());
-        $off->setDescription("Mokau plaukti.");
-        $em->persist($off);
 
         $des = new Desire(6);
         $des->setAdvId($adv->getId());
