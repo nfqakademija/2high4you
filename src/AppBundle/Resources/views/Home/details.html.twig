@@ -1,4 +1,13 @@
-{% extends '::base.html.twig' %}
+{% extends "::base.html.twig" %}
+
+{% block title %}Homepage - {{ parent() }}{% endblock %}
+
+{% block stylesheets %}
+    <link href="https://fonts.googleapis.com/css?family=Lato:100" rel="stylesheet" type="text/css">
+    {{ parent() }}
+    <style>
+    </style>
+{% endblock %}
 
 {% block body %}
     <a href="http://127.0.0.1:8000">Index view</a>
