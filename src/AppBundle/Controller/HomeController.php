@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 
+use AppBundle\Entity\Advertisement;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -18,27 +19,37 @@ class HomeController extends Controller
      */
     public function indexAction()
     {
+        $advertisement=new Advertisement(50);
+        $advertisement->setDescription("test");
+        $em=$this->getDoctrine()->getManager();
+//        $em->persist($advertisement);
+//        $em->flush();
+        $offers=$em->getRepository("AppBundle:Advertisement")->findAll();
+        var_dump($offers);
+
         return $this->render('AppBundle:Home:index.html.twig', [
-            'offers' => [
-                [
-                    'id' => 1,
-                    'name' => 'Teach guitar',
-                    'place' => 'LT Kaunas',
-                    'image' => 'http://placehold.it/100x100',
-                ],
-                [
-                    'id' => 2,
-                    'name' => 'Teach programming',
-                    'place' => 'LT Vilnius',
-                    'image' => 'http://placehold.it/100x100',
-                ],
-                [
-                    'id' => 3,
-                    'name' => 'Teach nothing',
-                    'place' => 'LT Kaunas',
-                    'image' => 'http://placehold.it/100x100',
-                ],
-            ],
+            'offers' => $offers,
+
+//                [
+//                [
+//                    'id' => 1,
+//                    'name' => 'Teach guitar',
+//                    'place' => 'LT Kaunas',
+//                    'image' => 'http://placehold.it/100x100',
+//                ],
+//                [
+//                    'id' => 2,
+//                    'name' => 'Teach programming',
+//                    'place' => 'LT Vilnius',
+//                    'image' => 'http://placehold.it/100x100',
+//                ],
+//                [
+//                    'id' => 3,
+//                    'name' => 'Teach nothing',
+//                    'place' => 'LT Kaunas',
+//                    'image' => 'http://placehold.it/100x100',
+//                ],
+//            ],
         ]);
     }
 

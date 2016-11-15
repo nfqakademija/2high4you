@@ -10,4 +10,5 @@ namespace AppBundle\Repository;
  */
 class AdvertisementRepository extends \Doctrine\ORM\EntityRepository
 {
+
 }

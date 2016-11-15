@@ -228,3 +228,4 @@ class User
         return $this->country;
     }
 }
+

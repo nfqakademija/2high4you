@@ -15,8 +15,8 @@
     <abs>{% for offer in offers %}
             <div class="offer">
                 <img src="https://d30y9cdsu7xlg0.cloudfront.net/png/13694-200.png">
-                <h3>{{ offer.name }}</h3>
-                <p>{{ offer.place }}</p>
+                <h3>{{ offer.description }}</h3>
+                <p>Kaunas</p>
                 <button name="details" onclick="location.href = '/details/{{ offer.id }}';">Details</button>
 
             </div>
