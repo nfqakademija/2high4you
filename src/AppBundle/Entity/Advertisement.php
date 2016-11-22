@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Advertisement
@@ -18,17 +19,15 @@ class Advertisement
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
-     * @ORM\OneToMany(targetEntity="Desire", mappedBy="advId")
      */
     private $id;
 
     /**
-     * @var int
      *
-     * @ORM\Column(name="userId", type="integer")
-     * @ORM\ManyToOne(targetEntity="User",inversedBy="id")
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="adverts")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
-    private $userId;
+    private $user;
 
     /**
      * @var \DateTime
@@ -50,6 +49,38 @@ class Advertisement
      * @ORM\Column(name="theme", type="string", length=255)
      */
     private $theme;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Desire", mappedBy="advert")
+     */
+    private $desires;
+
+    /**
+     * Advertisement constructor.
+     * @param $desires
+     */
+    public function __construct()
+    {
+        $this->desires = new ArrayCollection();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDesires()
+    {
+        return $this->desires;
+    }
+
+    /**
+     * @param mixed $desires
+     * @return Advertisement
+     */
+    public function setDesires($desires)
+    {
+        $this->desires = $desires;
+        return $this;
+    }
 
     /**
      * @return string
@@ -74,15 +105,24 @@ class Advertisement
      * @ORM\Column(name="description", type="text")
      */
     private $description;
+
     /**
-     * Advertisement constructor.
-     * @param int $id
+     * @return mixed
      */
-    public function __construct($id)
+    public function getUser()
     {
-        $this->id = $id;
+        return $this->user;
     }
 
+    /**
+     * @param mixed $user
+     * @return Advertisement
+     */
+    public function setUser($user)
+    {
+        $this->user = $user;
+        return $this;
+    }
 
     /**
      * Get id
@@ -92,30 +132,6 @@ class Advertisement
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set userId
-     *
-     * @param integer $userId
-     *
-     * @return Advertisement
-     */
-    public function setUserId($userId)
-    {
-        $this->userId = $userId;
-
-        return $this;
-    }
-
-    /**
-     * Get userId
-     *
-     * @return int
-     */
-    public function getUserId()
-    {
-        return $this->userId;
     }
 
     /**

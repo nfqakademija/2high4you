@@ -16,8 +16,8 @@
             <div class="offer">
                 <img src="https://d30y9cdsu7xlg0.cloudfront.net/png/13694-200.png">
                 <h3>{{ offer.description }}</h3>
-                <p>Kaunas</p>
-                <button name="details" onclick="location.href = '/details/{{ offer.id }}';">Details</button>
+                <p>{{ users[loop.index0].city }}</p>
+                <button name="details" onclick="location.href = '/details/{{ offer.id }}';">Daugiau...</button>
 
             </div>
         {% endfor %}

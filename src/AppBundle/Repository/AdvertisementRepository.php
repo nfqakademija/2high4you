@@ -10,5 +10,18 @@ namespace AppBundle\Repository;
  */
 class AdvertisementRepository extends \Doctrine\ORM\EntityRepository
 {
-
+    public function findUserByAdvUserId($advUserId)
+    {
+        $query = $this->getEntityManager()
+            ->createQuery(
+                'SELECT u FROM AppBundle:User u
+            JOIN u.adverts a
+            WHERE a.user = :id'
+            )->setParameter('id', $advUserId);
+        try {
+            return $query->getSingleResult();
+        } catch (\Doctrine\ORM\NoResultException $e) {
+            return null;
+        }
+    }
 }

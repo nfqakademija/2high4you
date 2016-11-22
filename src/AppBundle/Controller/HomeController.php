@@ -19,37 +19,15 @@ class HomeController extends Controller
      */
     public function indexAction()
     {
-        $advertisement=new Advertisement(50);
-        $advertisement->setDescription("test");
-        $em=$this->getDoctrine()->getManager();
-//        $em->persist($advertisement);
-//        $em->flush();
-        $offers=$em->getRepository("AppBundle:Advertisement")->findAll();
-        var_dump($offers);
-
+        $em = $this->getDoctrine()->getManager();
+        $rep = $em->getRepository("AppBundle:Advertisement");
+        $offers = $rep->findAll();
+        $users = array();
+        foreach($offers as $off)
+         $users[] = $rep->findUserByAdvUserId($off->getUser());
         return $this->render('AppBundle:Home:index.html.twig', [
             'offers' => $offers,
-
-//                [
-//                [
-//                    'id' => 1,
-//                    'name' => 'Teach guitar',
-//                    'place' => 'LT Kaunas',
-//                    'image' => 'http://placehold.it/100x100',
-//                ],
-//                [
-//                    'id' => 2,
-//                    'name' => 'Teach programming',
-//                    'place' => 'LT Vilnius',
-//                    'image' => 'http://placehold.it/100x100',
-//                ],
-//                [
-//                    'id' => 3,
-//                    'name' => 'Teach nothing',
-//                    'place' => 'LT Kaunas',
-//                    'image' => 'http://placehold.it/100x100',
-//                ],
-//            ],
+            'users' => $users
         ]);
     }
 
@@ -58,49 +36,25 @@ class HomeController extends Controller
      */
     public function detailsAction(Request $request, $id)
     {
-        $offers = [
-            [
-                'id'    => 1,
-                'name'  => 'Teach guitar',
-                'place' => 'LT Kaunas',
-                'image' => 'http://placehold.it/100x100',
-            ],
-            [
-                'id'    => 2,
-                'name'  => 'Teach programming',
-                'place' => 'LT Vilnius',
-                'image' => 'http://placehold.it/100x100',
-            ],
-            [
-                'id'    => 3,
-                'name'  => 'Teach nothing',
-                'place' => 'LT Kaunas',
-                'image' => 'http://placehold.it/100x100',
-            ],
-        ];
 
-        $chosenOffer = [];
-        foreach ($offers as $offer) {
-            if ($offer['id'] === (int) $id) {
-                $chosenOffer = $offer;
-                break;
-            }
-        }
-
-        $exchange = new Exchange();
-        $exchange->setRequest('hello');
-
-        $form = $this->createFormBuilder($exchange)
-            ->add('request', TextType::class)
-            ->add('save', SubmitType::class, ['label' => 'Request Exchange'])
-            ->getForm();
-
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            // $form->getData() holds the submitted values
-            // but, the original `$task` variable has also been updated
-            $exchange = $form->getData();
+        $em = $this->getDoctrine()->getManager();
+        $rep = $em->getRepository("AppBundle:Advertisement");
+        $adv = $rep->find($id);
+        $user = $rep->findUserByAdvUserId($adv->getUser());
+//        $exchange = new Exchange();
+//        $exchange->setRequest('hello');
+//
+//        $form = $this->createFormBuilder($exchange)
+//            ->add('request', TextType::class)
+//            ->add('save', SubmitType::class, ['label' => 'Request Exchange'])
+//            ->getForm();
+//
+//        $form->handleRequest($request);
+//
+//        if ($form->isSubmitted() && $form->isValid()) {
+//            // $form->getData() holds the submitted values
+//            // but, the original `$task` variable has also been updated
+//            $exchange = $form->getData();
 
             // ... perform some action, such as saving the task to the database
             // for example, if Task is a Doctrine entity, save it!
@@ -111,13 +65,14 @@ class HomeController extends Controller
 //             $em->flush();
 
 //            return $this->redirectToRoute('/');
-        }
+//        }
 
         return $this->render('AppBundle:Home:details.html.twig', [
             'id' => $id,
-            'offer' => $chosenOffer,
-            'form' => $form->createView(),
-            'exchange' => $exchange->getRequest(),
+            'user' => $user,
+            'adv' => $adv,
+            //'form' => $form->createView(),
+            //'exchange' => $exchange->getRequest(),
         ]);
     }
 

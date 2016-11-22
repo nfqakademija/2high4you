@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * User
@@ -18,7 +19,6 @@ class User
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
-     * @ORM\OneToMany(targetEntity="Advertisement", mappedBy="userId")
      */
     private $id;
 
@@ -63,14 +63,36 @@ class User
      * @ORM\Column(name="country", type="string", length=255)
      */
     private $country;
+    /**
+     * @ORM\OneToMany(targetEntity="Advertisement", mappedBy="user")
+     */
+    private $adverts;
 
     /**
      * User constructor.
      * @param int $id
      */
-    public function __construct($id)
+    public function __construct()
     {
-        $this->id = $id;
+        $this->adverts = new ArrayCollection();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAdverts()
+    {
+        return $this->adverts;
+    }
+
+    /**
+     * @param mixed $adverts
+     * @return User
+     */
+    public function setAdverts($adverts)
+    {
+        $this->adverts = $adverts;
+        return $this;
     }
 
 

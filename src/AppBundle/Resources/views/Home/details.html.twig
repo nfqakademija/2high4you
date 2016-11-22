@@ -6,15 +6,35 @@
     <link href="https://fonts.googleapis.com/css?family=Lato:100" rel="stylesheet" type="text/css">
     {{ parent() }}
     <style>
+        p {
+            color: black;
+            font-weight: bold;
+        }
     </style>
 {% endblock %}
 
 {% block body %}
-    <h1>{{ id }}</h1>
-    <h1>{{ exchange }}</h1>
-    <h1>Description</h1>
-    <p>{{ offer.name }}</p>
-    {{ form_start(form) }}
-    {{ form_widget(form) }}
-    {{ form_end(form) }}
+    {#<h1>{{ exchange }}</h1>#}
+    <h1>Skelbimo detalės:</h1>
+    <p>{{ 'Vardas: ' ~ user.firstName }}</p>
+    <p>{{ 'Pavardė: ' ~ user.lastName }}</p>
+    <p>{{ 'El. paštas: ' ~ user.email }}</p>
+    <p>{{ 'Tel. numeris: ' ~ user.phoneNumber }}</p>
+    <p>{{ 'Miestas: ' ~ user.city }}</p>
+    <p>{{ 'Šalis: ' ~ user.country }}</p>
+    <p>{{ 'Tema: ' ~ adv.theme}}</p>
+    <p>{{ 'Mokau: ' ~ adv.description }}</p>
+    {% if adv.desires | length <= 1 %}
+        <p>{{ 'Noriu išmokti: ' ~ adv.desires[0].description}}</p>
+    {% else %}
+        <p>{{ 'Noriu išmokti: '}}</p>
+        {%  for desire in adv.desires %}
+            <p>{{desire.description}}</p>
+        {% endfor %}
+    {% endif %}
+
+    <p>{{ 'Skelbimo data: ' ~ adv.creationDate | date('Y-m-d') ~  adv.creationTime | date(' H:i:s')}}</p>
+    {#{{ form_start(form) }}#}
+    {#{{ form_widget(form) }}#}
+    {#{{ form_end(form) }}#}
 {% endblock %}

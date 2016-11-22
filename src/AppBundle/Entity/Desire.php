@@ -22,12 +22,11 @@ class Desire
     private $id;
 
     /**
-     * @var int
      *
-     * @ORM\Column(name="advId", type="integer")
-     * @ORM\ManyToOne(targetEntity="Advertisement", inversedBy="id")
+     * @ORM\ManyToOne(targetEntity="Advertisement", inversedBy="desires")
+     * @ORM\JoinColumn(name="adv_id", referencedColumnName="id")
      */
-    private $advId;
+    private $advert;
 
     /**
      * @var string
@@ -37,12 +36,21 @@ class Desire
     private $description;
 
     /**
-     * Desire constructor.
-     * @param int $id
+     * @return mixed
      */
-    public function __construct($id)
+    public function getAdvert()
     {
-        $this->id = $id;
+        return $this->advert;
+    }
+
+    /**
+     * @param mixed $advert
+     * @return Desire
+     */
+    public function setAdvert($advert)
+    {
+        $this->advert = $advert;
+        return $this;
     }
 
 
@@ -56,29 +64,6 @@ class Desire
         return $this->id;
     }
 
-    /**
-     * Set advId
-     *
-     * @param integer $advId
-     *
-     * @return Desire
-     */
-    public function setAdvId($advId)
-    {
-        $this->advId = $advId;
-
-        return $this;
-    }
-
-    /**
-     * Get advId
-     *
-     * @return int
-     */
-    public function getAdvId()
-    {
-        return $this->advId;
-    }
 
     /**
      * Set description
