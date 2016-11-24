@@ -151,7 +151,6 @@ class PopulateDbCommand extends ContainerAwareCommand
         $des->setDescription("Noriu ismokti zaisti krepsini.");
         $des->setUser($user);
         $em->persist($des);
-
         $em->flush();
 
         $output->writeln("Database populated!");
