@@ -54,6 +54,12 @@ class Advertisement
      * @ORM\OneToMany(targetEntity="Desire", mappedBy="advert")
      */
     private $desires;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="description", type="text")
+     */
+    private $description;
 
     /**
      * Advertisement constructor.
@@ -99,12 +105,6 @@ class Advertisement
         $this->description = $description;
         return $this;
     }
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="description", type="text")
-     */
-    private $description;
 
     /**
      * @return mixed

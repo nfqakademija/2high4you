@@ -69,12 +69,35 @@ class User
     private $adverts;
 
     /**
+     * @ORM\OneToMany(targetEntity="Desire", mappedBy="user")
+     */
+    private $desires;
+
+    /**
      * User constructor.
      * @param int $id
      */
     public function __construct()
     {
         $this->adverts = new ArrayCollection();
+        $this->desires = new ArrayCollection();
+    }
+    /**
+     * @return mixed
+     */
+    public function getDesires()
+    {
+        return $this->desires;
+    }
+
+    /**
+     * @param mixed $desires
+     * @return User
+     */
+    public function setDesires($desires)
+    {
+        $this->desires = $desires;
+        return $this;
     }
 
     /**

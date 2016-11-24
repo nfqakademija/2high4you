@@ -27,6 +27,12 @@ class Desire
      * @ORM\JoinColumn(name="adv_id", referencedColumnName="id")
      */
     private $advert;
+    /**
+     *
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="desires")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     */
+    private $user;
 
     /**
      * @var string
@@ -38,6 +44,25 @@ class Desire
     /**
      * @return mixed
      */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * @param mixed $user
+     * @return Desire
+     */
+    public function setUser($user)
+    {
+        $this->user = $user;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+
     public function getAdvert()
     {
         return $this->advert;
