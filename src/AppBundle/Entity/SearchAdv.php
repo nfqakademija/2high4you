@@ -12,6 +12,25 @@ namespace AppBundle\Entity;
 class SearchAdv
 {
     private $searchString;
+    private $choice;
+
+    /**
+     * @return mixed
+     */
+    public function getChoice()
+    {
+        return $this->choice;
+    }
+
+    /**
+     * @param mixed $choice
+     * @return SearchAdv
+     */
+    public function setChoice($choice)
+    {
+        $this->choice = $choice;
+        return $this;
+    }
 
     /**
      * @return mixed
