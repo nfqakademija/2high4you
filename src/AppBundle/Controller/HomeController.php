@@ -11,6 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\SearchType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use AppBundle\Entity\User;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\Desire;
@@ -24,46 +25,32 @@ class HomeController extends Controller
     public function indexAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $rep1 = $em->getRepository("AppBundle:Advertisement");
-        $offers = $rep1->findAll();
+        $repAdv = $em->getRepository("AppBundle:Advertisement");
+        $offers = $repAdv->findAll();
         $users = [];
         foreach($offers as $off)
-         $users[] = $rep1->findUserByAdvUserId($off->getUser());
+         $users[] = $repAdv->findUserByAdvUserId($off->getUser());
         $searchAdv = new SearchAdv();
         $form = $this->createFormBuilder($searchAdv)
-            ->add('searchString', SearchType::class, ['label'  => 'Ieškoti: ',])
-            ->add('save', SubmitType::class, ['label' => 'Surask...',])
+            ->add('choice', ChoiceType::class, ['choices'  => ['miestas' => 'City', 'noriu išmokti' => 'Offer', 'galiu pamokint' => 'Desire',], 'label' => 'Pasirinkte:'])
+            ->add('searchString', SearchType::class, ['label' => 'įveskite:'])
+            ->add('save', SubmitType::class, ['label' => 'Ieškoti skelbimų',])
             ->getForm();
         $form->handleRequest($request);
-        $searchRes = [];
-        if (!$form->isEmpty() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
 
             $searchAdv = $form->getData();
-            $rep = $this->get('app_bundle.search_repository');
-            $searchRes = $rep->search($searchAdv->getSearchString());
-            $offers = [];
-            $users = [];
-            foreach($searchRes as $result)
-            {
-                $adv = new Advertisement();
-                $adv->setDescription($result['description']);
-                $adv->setCreationDate($result['creationDate']);
-                $adv->setCreationTime($result['creationTime']);
-                $adv->setTheme($result['theme']);
-                $adv->setId($result['id']);
-                $user = $rep1->findUserByAdvUserId($result['user_id']);
-                $users[] = $user;
-                $adv->setUser($user);
-                $offers[] = $adv;
+            $repSearch = $this->get('app_bundle.search_repository');
+            $repSearch->setAdvsAndUsers($searchAdv->getSearchString(), $searchAdv->getChoice());
+            $offers = $repSearch->getAdvs();
+            $users = $repSearch->getUsers();
 
-            }
         }
 
         return $this->render('AppBundle:Home:index.html.twig', [
             'offers' => $offers,
             'users' => $users,
             'form' => $form->createView(),
-            'searchRes' => $searchRes
         ]);
     }
 
@@ -79,7 +66,6 @@ class HomeController extends Controller
         $user = $rep->findUserByAdvUserId($adv->getUser());
 
         return $this->render('AppBundle:Home:details.html.twig', [
-            'id' => $id,
             'user' => $user,
             'adv' => $adv,
         ]);

@@ -13,8 +13,12 @@
     {{ form_start(form) }}
     {{ form_widget(form) }}
     {{ form_end(form) }}
-
-    <abs>{% for offer in offers %}
+    {{ form_end(form) }}
+    <abs>
+        {% if offers | length == 0 %}
+            <h3>Skelbimų pagal pasirinktą kriterijų nerasta. Grįžkite į pagrindinį puslapį.</h3>
+        {% else %}
+         {% for offer in offers %}
             <div class="offer">
                 <img src="https://d30y9cdsu7xlg0.cloudfront.net/png/13694-200.png">
                 <h3>{{ offer.description }}</h3>
@@ -22,6 +26,7 @@
                 <button name="details" onclick="location.href = '/details/{{ offer.id }}';">Daugiau...</button>
 
             </div>
-        {% endfor %}
+         {% endfor %}
+        {% endif %}
     </abs>
 {% endblock %}
