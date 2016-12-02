@@ -10,7 +10,9 @@
 {% endblock %}
 
 {% block body %}
-
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    {{ form_end(form) }}
 
     <abs>{% for offer in offers %}
             <div class="offer">
