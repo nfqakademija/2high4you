@@ -4,11 +4,13 @@ namespace AppBundle\Controller;
 
 
 use AppBundle\Entity\Advertisement;
+use AppBundle\Entity\SearchAdv;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\SearchType;
 use AppBundle\Entity\User;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\Desire;
@@ -19,24 +21,53 @@ class HomeController extends Controller
     /**
      * @Route("/", name="homepage")
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $rep = $em->getRepository("AppBundle:Advertisement");
-        $offers = $rep->findAll();
-        $users = array();
+        $rep1 = $em->getRepository("AppBundle:Advertisement");
+        $offers = $rep1->findAll();
+        $users = [];
         foreach($offers as $off)
-         $users[] = $rep->findUserByAdvUserId($off->getUser());
+         $users[] = $rep1->findUserByAdvUserId($off->getUser());
+        $searchAdv = new SearchAdv();
+        $form = $this->createFormBuilder($searchAdv)
+            ->add('searchString', SearchType::class, ['label'  => 'Ieškoti: ',])
+            ->add('save', SubmitType::class, ['label' => 'Surask...',])
+            ->getForm();
+        $form->handleRequest($request);
+        $searchRes = [];
+        if (!$form->isEmpty() && $form->isValid()) {
+
+            $searchAdv = $form->getData();
+            $rep = $this->get('app_bundle.search_repository');
+            $searchRes = $rep->search($searchAdv->getSearchString());
+            $offers = [];
+            $users = [];
+            foreach($searchRes as $result)
+            {
+                $adv = new Advertisement();
+                $adv->setDescription($result['description']);
+                $adv->setCreationDate($result['creationDate']);
+                $adv->setCreationTime($result['creationTime']);
+                $adv->setTheme($result['theme']);
+                $users[] = $rep1->findUserByAdvUserId($result['user_id']);
+                $offers[] = $adv;
+
+            }
+        }
+
         return $this->render('AppBundle:Home:index.html.twig', [
             'offers' => $offers,
-            'users' => $users
+            'users' => $users,
+            'form' => $form->createView(),
+            'searchRes' => $searchRes
         ]);
     }
 
     /**
      * @Route("/details/{id}", name="offer_details")
      */
-    public function detailsAction(Request $request, $id)
+    public function detailsAction($id)
     {
 
         $em = $this->getDoctrine()->getManager();

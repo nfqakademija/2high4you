@@ -7,3 +7,7 @@ services:
     app.example:
         class: AppBundle\Service\ExampleService
         arguments: ["@doctrine.orm.entity_manager"]
+
+    app_bundle.search_repository:
+        class: AppBundle\Repository\SearchRepository
+        arguments: ["@doctrine.dbal.default_connection"]
