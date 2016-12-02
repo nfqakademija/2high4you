@@ -58,6 +58,7 @@ class PopulateDbCommand extends ContainerAwareCommand
         $des = new Desire();
         $des->setAdvert($adv);
         $des->setDescription("Noriu ismokti programavimo.");
+        $des->setUser($user);
         $em->persist($des);
 
         $user = new User();
@@ -80,6 +81,7 @@ class PopulateDbCommand extends ContainerAwareCommand
         $des = new Desire();
         $des->setAdvert($adv);
         $des->setDescription("Noriu ismokti istorijos.");
+        $des->setUser($user);
         $em->persist($des);
 
         $user = new User();
@@ -103,6 +105,7 @@ class PopulateDbCommand extends ContainerAwareCommand
         $des = new Desire();
         $des->setAdvert($adv);
         $des->setDescription("Noriu ismokti kulinarijos.");
+        $des->setUser($user);
         $em->persist($des);
 
         $user = new User();
@@ -126,11 +129,13 @@ class PopulateDbCommand extends ContainerAwareCommand
         $des = new Desire();
         $des->setAdvert($adv);
         $des->setDescription("Noriu ismokti zaisti sachmatais.");
+        $des->setUser($user);
         $em->persist($des);
 
         $des = new Desire();
         $des->setAdvert($adv);
         $des->setDescription("Noriu ismokti zaisti saskemis.");
+        $des->setUser($user);
         $em->persist($des);
 
         $adv = new Advertisement();
@@ -144,8 +149,8 @@ class PopulateDbCommand extends ContainerAwareCommand
         $des = new Desire();
         $des->setAdvert($adv);
         $des->setDescription("Noriu ismokti zaisti krepsini.");
+        $des->setUser($user);
         $em->persist($des);
-
         $em->flush();
 
         $output->writeln("Database populated!");
