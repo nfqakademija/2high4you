@@ -50,7 +50,10 @@ class HomeController extends Controller
                 $adv->setCreationDate($result['creationDate']);
                 $adv->setCreationTime($result['creationTime']);
                 $adv->setTheme($result['theme']);
-                $users[] = $rep1->findUserByAdvUserId($result['user_id']);
+                $adv->setId($result['id']);
+                $user = $rep1->findUserByAdvUserId($result['user_id']);
+                $users[] = $user;
+                $adv->setUser($user);
                 $offers[] = $adv;
 
             }

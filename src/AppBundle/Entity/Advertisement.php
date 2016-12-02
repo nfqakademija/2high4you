@@ -23,6 +23,14 @@ class Advertisement
     private $id;
 
     /**
+     * @param int $id
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+
+    /**
      *
      * @ORM\ManyToOne(targetEntity="User", inversedBy="adverts")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
