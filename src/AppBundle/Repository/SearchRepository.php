@@ -2,7 +2,6 @@
 
 namespace AppBundle\Repository;
 
-
 use AppBundle\Entity\Advertisement;
 use Doctrine\DBAL\Connection;
 use Doctrine\ORM\Mapping as ORM;
@@ -52,10 +51,10 @@ class SearchRepository
     {
         $statement = $this->connection->prepare(
             "SELECT a.id, a.user_id, a.creationDate, a.creationTime, a.theme, a.description 
-                                                 FROM desire d 
-                                                 JOIN advertisement a ON a.id = d.adv_id 
-                                                 WHERE d.description LIKE :searchString
-                                                 GROUP BY a.id, a.user_id, a.creationDate, a.creationTime, a.theme, a.description"
+             FROM desire d 
+             JOIN advertisement a ON a.id = d.adv_id 
+             WHERE d.description LIKE :searchString
+             GROUP BY a.id, a.user_id, a.creationDate, a.creationTime, a.theme, a.description"
         );
         $statement->bindValue('searchString', '%'.$searchString.'%');
         $statement->execute();
@@ -70,11 +69,11 @@ class SearchRepository
     private function searchAdvByCity($searchString)
     {
         $statement = $this->connection->prepare(
-            "SELECT a.id, a.user_id, a.creationDate, a.creationTime, a.theme, a.description 
-                                                 FROM advertisement a
-                                                 JOIN user u ON a.user_id = u.id 
-                                                 WHERE u.city LIKE :searchString
-                                                 GROUP BY a.id, a.user_id, a.creationDate, a.creationTime, a.theme, a.description"
+            "SELECT a.id, a.user_id, a.creationDate, a.creationTime, a.theme, a.description
+             FROM advertisement a
+             JOIN user u ON a.user_id = u.id
+             WHERE u.city LIKE :searchString
+             GROUP BY a.id, a.user_id, a.creationDate, a.creationTime, a.theme, a.description"
         );
         $statement->bindValue('searchString', '%'.$searchString.'%');
         $statement->execute();
@@ -90,8 +89,8 @@ class SearchRepository
     {
         $statement = $this->connection->prepare(
             "SELECT u.*
-                                                 FROM user u
-                                                 WHERE u.id = :id"
+             FROM user u
+             WHERE u.id = :id"
         );
         $statement->bindValue('id', $advUserId);
         $statement->execute();
@@ -111,18 +110,16 @@ class SearchRepository
 
     public function setAdvsAndUsers($searchString, $choice)
     {
-        if($choice === 'City') {
+        if ($choice === 'City') {
             $advs = $this->searchAdvByCity($searchString); 
         }
-        else
-        if($choice === 'Desire') {
+        elseif ($choice === 'Desire') {
             $advs = $this->searchAdvByDesireDesc($searchString); 
         }
         else {
             $advs = $this->searchAdvByDesc($searchString); 
         }
-
-        foreach($advs as $adv)
+        foreach ($advs as $adv)
         {
             $a = new Advertisement();
             $a->setId($adv['id']);
@@ -136,9 +133,7 @@ class SearchRepository
             $a->setUser($u);
             $this->advs[] = $a;
             $this->users[] = $u;
-
         }
-
     }
 
     /**
@@ -156,6 +151,4 @@ class SearchRepository
     {
         return $this->users;
     }
-
-
 }

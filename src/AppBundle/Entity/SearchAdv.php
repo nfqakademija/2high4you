@@ -8,7 +8,6 @@
 
 namespace AppBundle\Entity;
 
-
 class SearchAdv
 {
     private $searchString;
@@ -49,5 +48,4 @@ class SearchAdv
         $this->searchString = $searchString;
         return $this;
     }
-
 }

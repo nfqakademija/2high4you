@@ -2,7 +2,6 @@
 
 namespace AppBundle\Controller;
 
-
 use AppBundle\Entity\Advertisement;
 use AppBundle\Entity\SearchAdv;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -28,31 +27,40 @@ class HomeController extends Controller
         $repAdv = $em->getRepository("AppBundle:Advertisement");
         $offers = $repAdv->findAll();
         $users = [];
-        foreach($offers as $off) {
-            $users[] = $repAdv->findUserByAdvUserId($off->getUser()); 
+        foreach ($offers as $off) {
+            $users[] = $repAdv->findUserByAdvUserId($off->getUser());
         }
         $searchAdv = new SearchAdv();
         $form = $this->createFormBuilder($searchAdv)
-            ->add('choice', ChoiceType::class, ['choices'  => ['miestas' => 'City', 'noriu išmokti' => 'Offer', 'galiu pamokint' => 'Desire',], 'label' => 'Pasirinkte:'])
+            ->add(
+                'choice', ChoiceType::class,
+                [
+                    'choices'  => [
+                        'miestas' => 'City',
+                        'noriu išmokti' => 'Offer',
+                        'galiu pamokint' => 'Desire'
+                    ],
+                    'label' => 'Pasirinkte:'
+                ]
+            )
             ->add('searchString', SearchType::class, ['label' => 'įveskite:'])
             ->add('save', SubmitType::class, ['label' => 'Ieškoti skelbimų',])
             ->getForm();
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-
             $searchAdv = $form->getData();
             $repSearch = $this->get('app_bundle.search_repository');
             $repSearch->setAdvsAndUsers($searchAdv->getSearchString(), $searchAdv->getChoice());
             $offers = $repSearch->getAdvs();
             $users = $repSearch->getUsers();
-
         }
 
         return $this->render(
-            'AppBundle:Home:index.html.twig', [
-            'offers' => $offers,
-            'users' => $users,
-            'form' => $form->createView(),
+            'AppBundle:Home:index.html.twig',
+            [
+                'offers' => $offers,
+                'users' => $users,
+                'form' => $form->createView(),
             ]
         );
     }
@@ -69,9 +77,10 @@ class HomeController extends Controller
         $user = $rep->findUserByAdvUserId($adv->getUser());
 
         return $this->render(
-            'AppBundle:Home:details.html.twig', [
-            'user' => $user,
-            'adv' => $adv,
+            'AppBundle:Home:details.html.twig',
+            [
+                'user' => $user,
+                'adv' => $adv,
             ]
         );
     }
@@ -139,7 +148,6 @@ class HomeController extends Controller
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
-
                 $adv = $form->getData();
                 $adv->setCreationDate(new \DateTime('now'));
                 $adv->setCreationTime(new \DateTime('now'));
@@ -155,16 +163,15 @@ class HomeController extends Controller
                 return $this->redirectToRoute('newDes');
             }
 
-
             return $this->render(
-                'AppBundle:Home:new_adv.html.twig', [
-
-                'form' => $form->createView(),
+                'AppBundle:Home:new_adv.html.twig',
+                [
+                    'form' => $form->createView(),
                 ]
             );
         }
         else {
-            return $this->redirectToRoute('newDes'); 
+            return $this->redirectToRoute('newDes');
         }
     }
     /**
@@ -182,7 +189,6 @@ class HomeController extends Controller
             $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $des = $form->getData();
             $user = $this->getDoctrine()
                 ->getRepository('AppBundle:User')
@@ -202,17 +208,13 @@ class HomeController extends Controller
             $user = $session->get('user_id');
             $adv = $session->get('adv_id');
 
-
             return $this->render(
-                'AppBundle:Home:new_des.html.twig', [
-
-                'form' => $form->createView(),
-                'user' => $user,
-                'adv' => $adv
+                'AppBundle:Home:new_des.html.twig',
+                [
+                    'form' => $form->createView(),
+                    'user' => $user,
+                    'adv' => $adv
                 ]
             );
     }
 }
-
-
-

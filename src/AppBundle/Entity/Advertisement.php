@@ -214,5 +214,4 @@ class Advertisement
     {
         return $this->theme;
     }
-
 }
