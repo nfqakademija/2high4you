@@ -117,8 +117,7 @@ class SearchRepository
         } else {
             $advs = $this->searchAdvByDesc($searchString);
         }
-        foreach ($advs as $adv)
-        {
+        foreach ($advs as $adv) {
             $a = new Advertisement();
             $a->setId($adv['id']);
             $a->setTheme($adv['theme']);
