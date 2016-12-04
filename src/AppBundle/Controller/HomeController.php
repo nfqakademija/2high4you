@@ -28,8 +28,9 @@ class HomeController extends Controller
         $repAdv = $em->getRepository("AppBundle:Advertisement");
         $offers = $repAdv->findAll();
         $users = [];
-        foreach($offers as $off)
-         $users[] = $repAdv->findUserByAdvUserId($off->getUser());
+        foreach($offers as $off) {
+            $users[] = $repAdv->findUserByAdvUserId($off->getUser()); 
+        }
         $searchAdv = new SearchAdv();
         $form = $this->createFormBuilder($searchAdv)
             ->add('choice', ChoiceType::class, ['choices'  => ['miestas' => 'City', 'noriu išmokti' => 'Offer', 'galiu pamokint' => 'Desire',], 'label' => 'Pasirinkte:'])
@@ -47,11 +48,13 @@ class HomeController extends Controller
 
         }
 
-        return $this->render('AppBundle:Home:index.html.twig', [
+        return $this->render(
+            'AppBundle:Home:index.html.twig', [
             'offers' => $offers,
             'users' => $users,
             'form' => $form->createView(),
-        ]);
+            ]
+        );
     }
 
     /**
@@ -65,10 +68,12 @@ class HomeController extends Controller
         $adv = $rep->find($id);
         $user = $rep->findUserByAdvUserId($adv->getUser());
 
-        return $this->render('AppBundle:Home:details.html.twig', [
+        return $this->render(
+            'AppBundle:Home:details.html.twig', [
             'user' => $user,
             'adv' => $adv,
-        ]);
+            ]
+        );
     }
 
     /**
@@ -78,42 +83,44 @@ class HomeController extends Controller
     {
         $session = $request->getSession();
 
-        if (!$session->has('user_id'))
-        {
+        if (!$session->has('user_id')) {
             $user = new User();
-         $form = $this->createFormBuilder($user)
-            ->add('firstName', TextType::class, ['label'  => 'Vardas: ',])
-            ->add('lastName', TextType::class, ['label'  => 'Pavardė: ',])
-            ->add('email', EmailType::class, ['label'  => 'El.paštas: ',])
-            ->add('phoneNumber', TextType::class, ['label'  => 'Tel. numeris: ',])
-            ->add('city', TextType::class, ['label'  => 'Miestas: ',])
-            ->add('country', TextType::class, ['label'  => 'Šalis: ',])
-            ->add('save', SubmitType::class, ['label' => 'Išsaugoti...',])
-            ->getForm();
+            $form = $this->createFormBuilder($user)
+                ->add('firstName', TextType::class, ['label'  => 'Vardas: ',])
+                ->add('lastName', TextType::class, ['label'  => 'Pavardė: ',])
+                ->add('email', EmailType::class, ['label'  => 'El.paštas: ',])
+                ->add('phoneNumber', TextType::class, ['label'  => 'Tel. numeris: ',])
+                ->add('city', TextType::class, ['label'  => 'Miestas: ',])
+                ->add('country', TextType::class, ['label'  => 'Šalis: ',])
+                ->add('save', SubmitType::class, ['label' => 'Išsaugoti...',])
+                ->getForm();
 
 
-         $form->handleRequest($request);
+            $form->handleRequest($request);
 
-         if ($form->isSubmitted() && $form->isValid()) {
+            if ($form->isSubmitted() && $form->isValid()) {
 
-            $user = $form->getData();
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($user);
-            $em->flush();
-            $session->set('user_id', $user->getId());
+                $user = $form->getData();
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($user);
+                $em->flush();
+                $session->set('user_id', $user->getId());
 
-            return $this->redirectToRoute('newAdv');
-         }
+                return $this->redirectToRoute('newAdv');
+            }
 
 
-         return $this->render('AppBundle:Home:new_user.html.twig', [
+            return $this->render(
+                'AppBundle:Home:new_user.html.twig', [
 
-           'form' => $form->createView(),
-         ]);
+                'form' => $form->createView(),
+                ]
+            );
         }
-        else
+        else {
 
-            return $this->redirectToRoute('newAdv');
+            return $this->redirectToRoute('newAdv'); 
+        }
     }
     /**
      * @Route("/new_adv", name="newAdv")
@@ -121,8 +128,7 @@ class HomeController extends Controller
     public function newAdvAction(Request $request)
     {
         $session = $request->getSession();
-        if (!$session->has('adv_id'))
-        {
+        if (!$session->has('adv_id')) {
             $adv = new Advertisement();
             $form = $this->createFormBuilder($adv)
                 ->add('theme', TextType::class, ['label' => 'Tema: ',])
@@ -150,13 +156,16 @@ class HomeController extends Controller
             }
 
 
-            return $this->render('AppBundle:Home:new_adv.html.twig', [
+            return $this->render(
+                'AppBundle:Home:new_adv.html.twig', [
 
                 'form' => $form->createView(),
-            ]);
+                ]
+            );
         }
-        else
-            return $this->redirectToRoute('newDes');
+        else {
+            return $this->redirectToRoute('newDes'); 
+        }
     }
     /**
      * @Route("/new_des", name="newDes")
@@ -172,34 +181,36 @@ class HomeController extends Controller
 
             $form->handleRequest($request);
 
-            if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
 
-                $des = $form->getData();
-                $user = $this->getDoctrine()
-                    ->getRepository('AppBundle:User')
-                    ->find($session->get('user_id'));
-                $adv = $this->getDoctrine()
-                    ->getRepository('AppBundle:Advertisement')
-                    ->find($session->get('adv_id'));
-                $des->setUser($user);
-                $des->setAdvert($adv);
-                $em = $this->getDoctrine()->getManager();
-                $em->persist($des);
-                $em->flush();
-                $session->clear();
-                return $this->redirectToRoute('homepage');
-            }
+            $des = $form->getData();
+            $user = $this->getDoctrine()
+                ->getRepository('AppBundle:User')
+                ->find($session->get('user_id'));
+            $adv = $this->getDoctrine()
+                ->getRepository('AppBundle:Advertisement')
+                ->find($session->get('adv_id'));
+            $des->setUser($user);
+            $des->setAdvert($adv);
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($des);
+            $em->flush();
+            $session->clear();
+            return $this->redirectToRoute('homepage');
+        }
 
             $user = $session->get('user_id');
             $adv = $session->get('adv_id');
 
 
-            return $this->render('AppBundle:Home:new_des.html.twig', [
+            return $this->render(
+                'AppBundle:Home:new_des.html.twig', [
 
                 'form' => $form->createView(),
                 'user' => $user,
                 'adv' => $adv
-            ]);
+                ]
+            );
     }
 }
 

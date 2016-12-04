@@ -71,6 +71,7 @@ class Advertisement
 
     /**
      * Advertisement constructor.
+     *
      * @param $desires
      */
     public function __construct()
