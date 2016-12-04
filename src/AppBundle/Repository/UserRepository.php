@@ -1,6 +1,8 @@
 <?php
 
 namespace AppBundle\Repository;
+use AppBundle\Entity\Advertisement;
+use AppBundle\Entity\User;
 
 /**
  * UserRepository
@@ -10,4 +12,5 @@ namespace AppBundle\Repository;
  */
 class UserRepository extends \Doctrine\ORM\EntityRepository
 {
+
 }

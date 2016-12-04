@@ -10,23 +10,19 @@
 {% endblock %}
 
 {% block body %}
-    {{ form_start(form) }}
-    {{ form_widget(form) }}
-    {{ form_end(form) }}
-    {{ form_end(form) }}
     <abs>
-        {% if advs | length == 0 %}
+        {% if user.adverts | length == 0 %}
             <h3>Skelbimų pagal pasirinktą kriterijų nerasta. Grįžkite į pagrindinį puslapį.</h3>
         {% else %}
-            {% for a in advs %}
+            {% for adv in user.adverts %}
                 <div class="offer">
                     <img src="https://d30y9cdsu7xlg0.cloudfront.net/png/13694-200.png">
-                    <h3>{{ a.description }}</h3>
-                    <p>{{ users[loop.index0].city }}</p>
-                    <button name="details" onclick="location.href = '/details/{{ a.id }}';">Daugiau...</button>
+                    <h3>{{ adv.description }}</h3>
+                    <p>{{ user.city }}</p>
+                    <button name="details" onclick="location.href = '/details/{{ adv.id }}';">Daugiau...</button>
+
                 </div>
             {% endfor %}
         {% endif %}
     </abs>
 {% endblock %}
-

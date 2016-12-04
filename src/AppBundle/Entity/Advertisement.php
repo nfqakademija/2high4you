@@ -23,14 +23,6 @@ class Advertisement
     private $id;
 
     /**
-     * @param int $id
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
-
-    /**
      *
      * @ORM\ManyToOne(targetEntity="User", inversedBy="adverts")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
@@ -68,6 +60,12 @@ class Advertisement
      * @ORM\Column(name="description", type="text")
      */
     private $description;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="status", type="text", columnDefinition="enum('enabled', 'disabled')")
+     */
+    private $status;
 
     /**
      * Advertisement constructor.
@@ -77,6 +75,14 @@ class Advertisement
     public function __construct()
     {
         $this->desires = new ArrayCollection();
+    }
+
+    /**
+     * @param int $id
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
     }
 
     /**
@@ -214,4 +220,24 @@ class Advertisement
     {
         return $this->theme;
     }
+
+    /**
+     * @return string
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * @param string $status
+     * @return Advertisement
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+        return $this;
+    }
+
+
 }

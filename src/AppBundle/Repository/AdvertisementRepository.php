@@ -19,7 +19,7 @@ class AdvertisementRepository extends \Doctrine\ORM\EntityRepository
             WHERE a.user = :id'
             )->setParameter('id', $advUserId);
         try {
-            return $query->getSingleResult();
+            return $query->getResult();
         } catch (\Doctrine\ORM\NoResultException $e) {
             return null;
         }

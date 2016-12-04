@@ -33,7 +33,10 @@
     {% endif %}
 
     <p>{{ 'Skelbimo data: ' ~ adv.creationDate | date('Y-m-d') ~  adv.creationTime | date(' H:i:s')}}</p>
-    {#{{ form_start(form) }}#}
-    {#{{ form_widget(form) }}#}
-    {#{{ form_end(form) }}#}
+
+    {% if f == 1 %}
+     {{ form_start(form) }}
+     {{ form_widget(form) }}
+     {{ form_end(form) }}
+    {% endif %}
 {% endblock %}

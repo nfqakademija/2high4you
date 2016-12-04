@@ -34,9 +34,9 @@ class SearchRepository
     private function searchAdvByDesc($searchString)
     {
         $statement = $this->connection->prepare(
-            "SELECT * 
+                                                 "SELECT * 
                                                  FROM advertisement 
-                                                 WHERE description LIKE :searchString"
+                                                 WHERE description LIKE :searchString AND status = 'enabled'"
         );
         $statement->bindValue('searchString', '%'.$searchString.'%');
         $statement->execute();
@@ -50,10 +50,10 @@ class SearchRepository
     private function searchAdvByDesireDesc($searchString)
     {
         $statement = $this->connection->prepare(
-            "SELECT a.id, a.user_id, a.creationDate, a.creationTime, a.theme, a.description 
+            "SELECT a.id, a.user_id, a.creationDate, a.creationTime, a.theme, a.description, a.status 
              FROM desire d 
              JOIN advertisement a ON a.id = d.adv_id 
-             WHERE d.description LIKE :searchString
+             WHERE d.description LIKE :searchString AND a.status = 'enabled'
              GROUP BY a.id, a.user_id, a.creationDate, a.creationTime, a.theme, a.description"
         );
         $statement->bindValue('searchString', '%'.$searchString.'%');
@@ -69,10 +69,10 @@ class SearchRepository
     private function searchAdvByCity($searchString)
     {
         $statement = $this->connection->prepare(
-            "SELECT a.id, a.user_id, a.creationDate, a.creationTime, a.theme, a.description
+            "SELECT a.id, a.user_id, a.creationDate, a.creationTime, a.theme, a.description, a.status
              FROM advertisement a
              JOIN user u ON a.user_id = u.id
-             WHERE u.city LIKE :searchString
+             WHERE u.city LIKE :searchString AND a.status = 'enabled'
              GROUP BY a.id, a.user_id, a.creationDate, a.creationTime, a.theme, a.description"
         );
         $statement->bindValue('searchString', '%'.$searchString.'%');
@@ -124,9 +124,11 @@ class SearchRepository
             $a->getCreationDate($adv['creationDate']);
             $a->getCreationTime($adv['creationTime']);
             $a->setDescription($adv['description']);
+            $a->setStatus($adv['status']);
             $u = new User();
             $user = $this->searchAdvUser($adv['user_id'])[0];
             $u->setCity($user['city']);
+            $u->setAdverts($a);
             $a->setUser($u);
             $this->advs[] = $a;
             $this->users[] = $u;

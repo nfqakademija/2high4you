@@ -52,6 +52,7 @@ class PopulateDbCommand extends ContainerAwareCommand
         $adv->setCreationTime(new \DateTime('now'));
         $adv->setTheme("Menas");
         $adv->setDescription("Mokau tapybos.");
+        $adv->setStatus("enabled");
         $em->persist($adv);
 
         $des = new Desire();
@@ -75,6 +76,7 @@ class PopulateDbCommand extends ContainerAwareCommand
         $adv->setTheme("Matematika");
         $adv->setUser($user);
         $adv->setDescription("Mokau matematikos.");
+        $adv->setStatus("enabled");
         $em->persist($adv);
 
         $des = new Desire();
@@ -99,6 +101,7 @@ class PopulateDbCommand extends ContainerAwareCommand
         $adv->setTheme("Vairavimas");
         $adv->setUser($user);
         $adv->setDescription("Mokau vairavimo.");
+        $adv->setStatus("enabled");
         $em->persist($adv);
 
         $des = new Desire();
@@ -123,6 +126,7 @@ class PopulateDbCommand extends ContainerAwareCommand
         $adv->setTheme("Sokiai");
         $adv->setUser($user);
         $adv->setDescription("Mokau sokti.");
+        $adv->setStatus("enabled");
         $em->persist($adv);
 
         $des = new Desire();
@@ -143,6 +147,7 @@ class PopulateDbCommand extends ContainerAwareCommand
         $adv->setTheme("Begimas");
         $adv->setUser($user);
         $adv->setDescription("Vedu begimo treniruotes.");
+        $adv->setStatus("enabled");
         $em->persist($adv);
 
         $des = new Desire();

@@ -25,11 +25,15 @@ class HomeController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $repAdv = $em->getRepository("AppBundle:Advertisement");
-        $offers = $repAdv->findAll();
+        $advs = $repAdv->findByStatus('enabled');
+        $repUser = $em->getRepository("AppBundle:User");
         $users = [];
-        foreach ($offers as $off) {
-            $users[] = $repAdv->findUserByAdvUserId($off->getUser());
-        }
+        foreach($advs as $a)
+            $users[] = $repUser->findOneById($a->getUser());
+
+
+        $session = $request->getSession();
+        $session->set('my_advs',0);
         $searchAdv = new SearchAdv();
         $form = $this->createFormBuilder($searchAdv)
             ->add(
@@ -52,15 +56,15 @@ class HomeController extends Controller
             $searchAdv = $form->getData();
             $repSearch = $this->get('app_bundle.search_repository');
             $repSearch->setAdvsAndUsers($searchAdv->getSearchString(), $searchAdv->getChoice());
-            $offers = $repSearch->getAdvs();
             $users = $repSearch->getUsers();
+            $advs = $repSearch->getAdvs();
         }
 
         return $this->render(
             'AppBundle:Home:index.html.twig',
             [
-                'offers' => $offers,
                 'users' => $users,
+                'advs' => $advs,
                 'form' => $form->createView(),
             ]
         );
@@ -69,19 +73,80 @@ class HomeController extends Controller
     /**
      * @Route("/details/{id}", name="offer_details")
      */
-    public function detailsAction($id)
+    public function detailsAction(Request $request, $id)
     {
 
         $em = $this->getDoctrine()->getManager();
-        $rep = $em->getRepository("AppBundle:Advertisement");
-        $adv = $rep->find($id);
-        $user = $rep->findUserByAdvUserId($adv->getUser());
+        $session = $request->getSession();
+        $repAdv = $em->getRepository("AppBundle:Advertisement");
+        $adv = $repAdv->find($id);
+        $repUser = $em->getRepository("AppBundle:User");
+        $user = $repUser->findById($adv->getUser());
+        if($session->get('my_advs') === 1) {
+            $s = new SearchAdv();
+            if($adv->getStatus() === 'enabled') {
+                $form = $this->createFormBuilder($s)
+                    ->add('save', SubmitType::class, ['label' => 'Paslėpti skelbimą...',])
+                    ->add('delete', SubmitType::class, array('label' => 'Panaikinti skelbimą...'))
+                    ->getForm();
+            }
+            else{
+                $form = $this->createFormBuilder($s)
+                    ->add('save', SubmitType::class, ['label' => 'Aktyvuoti skelbimą...',])
+                    ->add('delete', SubmitType::class, array('label' => 'Panaikinti skelbimą...'))
+                    ->getForm();
+            }
+            $form->handleRequest($request);
+            if ($form->isSubmitted() && $form->isValid()) {
+
+                if ($form->get('delete')->isClicked()) {
+                    $repDes = $em->getRepository("AppBundle:Desire");
+                    $des = $repDes->findByAdvert($adv);
+                    foreach($des as $d)
+                        $em->remove($d);
+                    $em->remove($adv);
+                    $em->flush();
+
+
+                    return $this->redirectToRoute('myAdvs');
+                } else {
+
+                    if ($adv->getStatus() === 'enabled')
+                        $adv->setStatus('disabled');
+                    else
+                        $adv->setStatus('enabled');
+                    $em->flush();
+                    if ($adv->getStatus() === 'enabled') {
+                        $form = $this->createFormBuilder($s)
+                            ->add('save', SubmitType::class, ['label' => 'Paslėpti skelbimą...',])
+                            ->add('delete', SubmitType::class, array('label' => 'Panaikinti skelbimą...'))
+                            ->getForm();
+                    } else {
+                        $form = $this->createFormBuilder($s)
+                            ->add('save', SubmitType::class, ['label' => 'Aktyvuoti skelbimą...',])
+                            ->add('delete', SubmitType::class, array('label' => 'Panaikinti skelbimą...'))
+                            ->getForm();
+                    }
+                }
+            }
+                return $this->render(
+                    'AppBundle:Home:details.html.twig',
+                    [
+                        'user' => $user[0],
+                        'adv' => $adv,
+                        'form' => $form->createView(),
+                        'f' => 1,
+                    ]
+                );
+
+        }
 
         return $this->render(
             'AppBundle:Home:details.html.twig',
             [
-                'user' => $user,
+                'user' => $user[0],
                 'adv' => $adv,
+                'f' => 0,
             ]
         );
     }
@@ -149,6 +214,7 @@ class HomeController extends Controller
                 $adv = $form->getData();
                 $adv->setCreationDate(new \DateTime('now'));
                 $adv->setCreationTime(new \DateTime('now'));
+                $adv->setStatus('enabled');
                 $em = $this->getDoctrine()->getManager();
                 $user = $this->getDoctrine()
                     ->getRepository('AppBundle:User')
@@ -214,4 +280,24 @@ class HomeController extends Controller
                 ]
             );
     }
+
+    /**
+     * @Route("/my_advs", name="myAdvs")
+     */
+    public function myAdvsAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $repUser = $em->getRepository("AppBundle:User");
+        $user = $repUser->findById(4);
+        $session = $request->getSession();
+        $session->set('my_advs',1);
+
+        return $this->render(
+            'AppBundle:Home:my_advs.html.twig',
+            [
+                'user' => $user[0],
+            ]
+        );
+    }
+
 }
