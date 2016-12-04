@@ -15,8 +15,8 @@ use AppBundle\Entity\User;
 class SearchRepository
 {
     /**
- * @var  Connection 
-*/
+    * @var  Connection
+    */
     private $connection;
     /**
      * @var array
@@ -111,13 +111,11 @@ class SearchRepository
     public function setAdvsAndUsers($searchString, $choice)
     {
         if ($choice === 'City') {
-            $advs = $this->searchAdvByCity($searchString); 
-        }
-        elseif ($choice === 'Desire') {
-            $advs = $this->searchAdvByDesireDesc($searchString); 
-        }
-        else {
-            $advs = $this->searchAdvByDesc($searchString); 
+            $advs = $this->searchAdvByCity($searchString);
+        } elseif ($choice === 'Desire') {
+            $advs = $this->searchAdvByDesireDesc($searchString);
+        } else {
+            $advs = $this->searchAdvByDesc($searchString);
         }
         foreach ($advs as $adv)
         {

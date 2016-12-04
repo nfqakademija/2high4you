@@ -33,7 +33,8 @@ class HomeController extends Controller
         $searchAdv = new SearchAdv();
         $form = $this->createFormBuilder($searchAdv)
             ->add(
-                'choice', ChoiceType::class,
+                'choice',
+                ChoiceType::class,
                 [
                     'choices'  => [
                         'miestas' => 'City',
@@ -108,7 +109,6 @@ class HomeController extends Controller
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
-
                 $user = $form->getData();
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($user);
@@ -120,15 +120,13 @@ class HomeController extends Controller
 
 
             return $this->render(
-                'AppBundle:Home:new_user.html.twig', [
-
-                'form' => $form->createView(),
+                'AppBundle:Home:new_user.html.twig',
+                [
+                    'form' => $form->createView(),
                 ]
             );
-        }
-        else {
-
-            return $this->redirectToRoute('newAdv'); 
+        } else {
+            return $this->redirectToRoute('newAdv');
         }
     }
     /**
@@ -169,8 +167,7 @@ class HomeController extends Controller
                     'form' => $form->createView(),
                 ]
             );
-        }
-        else {
+        } else {
             return $this->redirectToRoute('newDes');
         }
     }
