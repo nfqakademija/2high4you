@@ -34,9 +34,9 @@ class SearchRepository
     private function searchAdvByDesc($searchString)
     {
         $statement = $this->connection->prepare(
-                                                 "SELECT * 
-                                                 FROM advertisement 
-                                                 WHERE description LIKE :searchString AND status = 'enabled'"
+            "SELECT * 
+             FROM advertisement 
+             WHERE description LIKE :searchString AND status = 'enabled'"
         );
         $statement->bindValue('searchString', '%'.$searchString.'%');
         $statement->execute();

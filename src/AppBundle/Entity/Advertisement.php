@@ -238,6 +238,4 @@ class Advertisement
         $this->status = $status;
         return $this;
     }
-
-
 }

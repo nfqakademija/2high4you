@@ -28,12 +28,12 @@ class HomeController extends Controller
         $advs = $repAdv->findByStatus('enabled');
         $repUser = $em->getRepository("AppBundle:User");
         $users = [];
-        foreach($advs as $a)
+        foreach ($advs as $a) {
             $users[] = $repUser->findOneById($a->getUser());
-
+        }
 
         $session = $request->getSession();
-        $session->set('my_advs',0);
+        $session->set('my_advs', 0);
         $searchAdv = new SearchAdv();
         $form = $this->createFormBuilder($searchAdv)
             ->add(
@@ -82,15 +82,14 @@ class HomeController extends Controller
         $adv = $repAdv->find($id);
         $repUser = $em->getRepository("AppBundle:User");
         $user = $repUser->findById($adv->getUser());
-        if($session->get('my_advs') === 1) {
+        if ($session->get('my_advs') === 1) {
             $s = new SearchAdv();
-            if($adv->getStatus() === 'enabled') {
+            if ($adv->getStatus() === 'enabled') {
                 $form = $this->createFormBuilder($s)
                     ->add('save', SubmitType::class, ['label' => 'Paslėpti skelbimą...',])
                     ->add('delete', SubmitType::class, array('label' => 'Panaikinti skelbimą...'))
                     ->getForm();
-            }
-            else{
+            } else {
                 $form = $this->createFormBuilder($s)
                     ->add('save', SubmitType::class, ['label' => 'Aktyvuoti skelbimą...',])
                     ->add('delete', SubmitType::class, array('label' => 'Panaikinti skelbimą...'))
@@ -98,23 +97,22 @@ class HomeController extends Controller
             }
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
-
                 if ($form->get('delete')->isClicked()) {
                     $repDes = $em->getRepository("AppBundle:Desire");
                     $des = $repDes->findByAdvert($adv);
-                    foreach($des as $d)
+                    foreach ($des as $d) {
                         $em->remove($d);
+                    }
                     $em->remove($adv);
                     $em->flush();
 
-
                     return $this->redirectToRoute('myAdvs');
                 } else {
-
-                    if ($adv->getStatus() === 'enabled')
+                    if ($adv->getStatus() === 'enabled') {
                         $adv->setStatus('disabled');
-                    else
+                    } else {
                         $adv->setStatus('enabled');
+                    }
                     $em->flush();
                     if ($adv->getStatus() === 'enabled') {
                         $form = $this->createFormBuilder($s)
@@ -129,16 +127,16 @@ class HomeController extends Controller
                     }
                 }
             }
-                return $this->render(
-                    'AppBundle:Home:details.html.twig',
-                    [
-                        'user' => $user[0],
-                        'adv' => $adv,
-                        'form' => $form->createView(),
-                        'f' => 1,
-                    ]
-                );
 
+            return $this->render(
+                'AppBundle:Home:details.html.twig',
+                [
+                    'user' => $user[0],
+                    'adv' => $adv,
+                    'form' => $form->createView(),
+                    'f' => 1,
+                ]
+            );
         }
 
         return $this->render(
@@ -290,7 +288,7 @@ class HomeController extends Controller
         $repUser = $em->getRepository("AppBundle:User");
         $user = $repUser->findById(4);
         $session = $request->getSession();
-        $session->set('my_advs',1);
+        $session->set('my_advs', 1);
 
         return $this->render(
             'AppBundle:Home:my_advs.html.twig',
@@ -299,5 +297,4 @@ class HomeController extends Controller
             ]
         );
     }
-
 }
