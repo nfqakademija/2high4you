@@ -8,7 +8,7 @@ body {
 .title {
     margin: 20px auto;
     text-align: center;
-    font-size: 96px;
+    font-size: 196px;
     letter-spacing: 20px;
 }
 
@@ -71,16 +71,18 @@ abs {position: absolute;
 .offer {
     border: 1px solid gray;
     padding: 10px;
-    margin: 50px;
-    width: 110px;
+    margin: 500px;
+    width: 120px;
     overflow: hidden;
     height: 240px;
     margin-right: 40px;
     float:left;
     background-color: #333;
     color: white;
+}
 
-
+.offer button {
+    color:black;
 }
 img {
     border: 1px solid #ddd;
@@ -90,3 +92,4 @@ img {
     height: 100px;
     background: white;
 }
+

@@ -15,9 +15,9 @@
 
     body {
         margin: 0;
-        padding: 0;
-        font-weight: 100;
-        font-family: 'Lato';
+        padding: 50px;
+        font-weight: normal;
+        /*font-family: 'Lato';*/
     }
 
     .title {
@@ -87,15 +87,15 @@
         border: 1px solid gray;
         padding: 10px;
         margin: 50px;
-        width: 110px;
+        width: 120px;
         overflow: hidden;
         height: 280px;
-        margin-right: 40px;
         float:left;
         background-color: #333;
         color: white;
-
-
+    }
+    .offer button {
+        color:black;
     }
     img {
         border: 1px solid #ddd;
@@ -105,10 +105,9 @@
         height: 100px;
         background: white;
     }
-
-
-
-
+    label {
+        width:120px !Important;
+    }
 </style>
 <body>
 
@@ -119,16 +118,12 @@
     <li><a href="http://127.0.0.1:8000/my_advs">Mano skelbimai</a></li>
 </ul>
 
-
 <div class="container">
     {% block container %}
         {% block header %}
             {% include "::inc/header.html.twig" %}
         {% endblock %}
         {% block body %}
-
-
-
 
         {% endblock %}
     {% endblock %}

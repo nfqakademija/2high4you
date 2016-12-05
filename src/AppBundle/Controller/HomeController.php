@@ -41,14 +41,14 @@ class HomeController extends Controller
                 ChoiceType::class,
                 [
                     'choices'  => [
-                        'miestas' => 'City',
-                        'noriu išmokti' => 'Offer',
-                        'galiu pamokint' => 'Desire'
+                        'Miestas' => 'City',
+                        'Mokau' => 'Offer',
+                        'Norėčiau išmokti' => 'Desire'
                     ],
                     'label' => 'Pasirinkte:'
                 ]
             )
-            ->add('searchString', SearchType::class, ['label' => 'įveskite:'])
+            ->add('searchString', SearchType::class, ['label' => 'Įveskite:'])
             ->add('save', SubmitType::class, ['label' => 'Ieškoti skelbimų',])
             ->getForm();
         $form->handleRequest($request);
@@ -86,13 +86,13 @@ class HomeController extends Controller
             $s = new SearchAdv();
             if ($adv->getStatus() === 'enabled') {
                 $form = $this->createFormBuilder($s)
-                    ->add('save', SubmitType::class, ['label' => 'Paslėpti skelbimą...',])
-                    ->add('delete', SubmitType::class, array('label' => 'Panaikinti skelbimą...'))
+                    ->add('save', SubmitType::class, ['label' => 'Paslėpti skelbimą',])
+                    ->add('delete', SubmitType::class, array('label' => 'Panaikinti skelbimą'))
                     ->getForm();
             } else {
                 $form = $this->createFormBuilder($s)
-                    ->add('save', SubmitType::class, ['label' => 'Aktyvuoti skelbimą...',])
-                    ->add('delete', SubmitType::class, array('label' => 'Panaikinti skelbimą...'))
+                    ->add('save', SubmitType::class, ['label' => 'Aktyvuoti skelbimą',])
+                    ->add('delete', SubmitType::class, array('label' => 'Panaikinti skelbimą'))
                     ->getForm();
             }
             $form->handleRequest($request);
@@ -116,13 +116,13 @@ class HomeController extends Controller
                     $em->flush();
                     if ($adv->getStatus() === 'enabled') {
                         $form = $this->createFormBuilder($s)
-                            ->add('save', SubmitType::class, ['label' => 'Paslėpti skelbimą...',])
-                            ->add('delete', SubmitType::class, array('label' => 'Panaikinti skelbimą...'))
+                            ->add('save', SubmitType::class, ['label' => 'Paslėpti skelbimą',])
+                            ->add('delete', SubmitType::class, array('label' => 'Panaikinti skelbimą'))
                             ->getForm();
                     } else {
                         $form = $this->createFormBuilder($s)
-                            ->add('save', SubmitType::class, ['label' => 'Aktyvuoti skelbimą...',])
-                            ->add('delete', SubmitType::class, array('label' => 'Panaikinti skelbimą...'))
+                            ->add('save', SubmitType::class, ['label' => 'Aktyvuoti skelbimą',])
+                            ->add('delete', SubmitType::class, array('label' => 'Panaikinti skelbimą'))
                             ->getForm();
                     }
                 }
@@ -165,7 +165,7 @@ class HomeController extends Controller
                 ->add('phoneNumber', TextType::class, ['label'  => 'Tel. numeris: ',])
                 ->add('city', TextType::class, ['label'  => 'Miestas: ',])
                 ->add('country', TextType::class, ['label'  => 'Šalis: ',])
-                ->add('save', SubmitType::class, ['label' => 'Išsaugoti...',])
+                ->add('save', SubmitType::class, ['label' => 'Išsaugoti',])
                 ->getForm();
 
 
@@ -202,8 +202,8 @@ class HomeController extends Controller
             $adv = new Advertisement();
             $form = $this->createFormBuilder($adv)
                 ->add('theme', TextType::class, ['label' => 'Tema: ',])
-                ->add('description', TextType::class, ['label' => 'Ko galėčiau pamokint: ',])
-                ->add('save', SubmitType::class, ['label' => 'Išsaugoti...',])
+                ->add('description', TextType::class, ['label' => 'Mokau: ',])
+                ->add('save', SubmitType::class, ['label' => 'Išsaugoti',])
                 ->getForm();
 
             $form->handleRequest($request);
@@ -243,8 +243,8 @@ class HomeController extends Controller
         $session = $request->getSession();
             $des = new Desire();
             $form = $this->createFormBuilder($des)
-                ->add('description', TextType::class, ['label' => 'Ko norėčiau išmokti: ',])
-                ->add('save', SubmitType::class, ['label' => 'Išsaugoti...',])
+                ->add('description', TextType::class, ['label' => 'Norėčiau išmokti: ',])
+                ->add('save', SubmitType::class, ['label' => 'Išsaugoti',])
                 ->getForm();
 
             $form->handleRequest($request);

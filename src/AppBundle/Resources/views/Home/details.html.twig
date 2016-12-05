@@ -17,6 +17,9 @@
         button {
             margin-left: 50px;
         }
+        .desires {
+            margin-left:70px;
+        }
     </style>
 {% endblock %}
 
@@ -35,7 +38,7 @@
     {% else %}
         <p>{{ 'Noriu išmokti: '}}</p>
         {%  for desire in adv.desires %}
-            <p>{{desire.description}}</p>
+            <p class="desires">{{desire.description}}</p>
         {% endfor %}
     {% endif %}
 
