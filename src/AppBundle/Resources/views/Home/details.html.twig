@@ -3,12 +3,19 @@
 {% block title %}Homepage - {{ parent() }}{% endblock %}
 
 {% block stylesheets %}
-    <link href="https://fonts.googleapis.com/css?family=Lato:100" rel="stylesheet" type="text/css">
+    {#<link href="https://fonts.googleapis.com/css?family=Lato:100" rel="stylesheet" type="text/css">#}
     {{ parent() }}
     <style>
         p {
             color: black;
             font-weight: bold;
+            margin-left: 50px;
+        }
+        h1 {
+            margin-left:20px;
+        }
+        button {
+            margin-left: 50px;
         }
     </style>
 {% endblock %}
@@ -33,6 +40,8 @@
     {% endif %}
 
     <p>{{ 'Skelbimo data: ' ~ adv.creationDate | date('Y-m-d') ~  adv.creationTime | date(' H:i:s')}}</p>
+
+    <button name="details" onclick="location.href = '/';">Grįžti</button>
 
     {% if f == 1 %}
      {{ form_start(form) }}

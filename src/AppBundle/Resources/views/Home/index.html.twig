@@ -3,7 +3,7 @@
 {% block title %}Homepage - {{ parent() }}{% endblock %}
 
 {% block stylesheets %}
-    <link href="https://fonts.googleapis.com/css?family=Lato:100" rel="stylesheet" type="text/css">
+    {#<link href="https://fonts.googleapis.com/css?family=Lato:100" rel="stylesheet" type="text/css">#}
     {{ parent() }}
     <style>
     </style>
@@ -16,14 +16,14 @@
     {{ form_end(form) }}
     <abs>
         {% if advs | length == 0 %}
-            <h3>Skelbimų pagal pasirinktą kriterijų nerasta. Grįžkite į pagrindinį puslapį.</h3>
+            <h3>Skelbimų pagal pasirinktą kriterijų nerasta.</h3>
         {% else %}
             {% for a in advs %}
                 <div class="offer">
                     <img src="https://d30y9cdsu7xlg0.cloudfront.net/png/13694-200.png">
                     <h3>{{ a.description }}</h3>
                     <p>{{ users[loop.index0].city }}</p>
-                    <button name="details" onclick="location.href = '/details/{{ a.id }}';">Daugiau...</button>
+                    <button name="details" onclick="location.href = '/details/{{ a.id }}';">Daugiau</button>
                 </div>
             {% endfor %}
         {% endif %}

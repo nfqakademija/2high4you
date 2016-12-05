@@ -12,14 +12,14 @@
 {% block body %}
     <abs>
         {% if user.adverts | length == 0 %}
-            <h3>Skelbimų pagal pasirinktą kriterijų nerasta. Grįžkite į pagrindinį puslapį.</h3>
+            <h3>Skelbimų pagal pasirinktą kriterijų nerasta.</h3>
         {% else %}
             {% for adv in user.adverts %}
                 <div class="offer">
                     <img src="https://d30y9cdsu7xlg0.cloudfront.net/png/13694-200.png">
                     <h3>{{ adv.description }}</h3>
                     <p>{{ user.city }}</p>
-                    <button name="details" onclick="location.href = '/details/{{ adv.id }}';">Daugiau...</button>
+                    <button name="details" onclick="location.href = '/details/{{ adv.id }}';">Daugiau</button>
 
                 </div>
             {% endfor %}
