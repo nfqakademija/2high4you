@@ -99,7 +99,6 @@ class User
         $this->desires = $desires;
         return $this;
     }
-
     /**
      * @return mixed
      */
