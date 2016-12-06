@@ -21,6 +21,18 @@ class User
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="login", unique=true, type="string", length=255)
+     */
+    private $login;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="psw", type="string", length=255)
+     */
+    private $psw;
 
     /**
      * @var string
@@ -64,12 +76,12 @@ class User
      */
     private $country;
     /**
-     * @ORM\OneToMany(targetEntity="Advertisement", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="Advertisement", mappedBy="user", cascade={"remove"})
      */
     private $adverts;
 
     /**
-     * @ORM\OneToMany(targetEntity="Desire", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="Desire", mappedBy="user", cascade={"remove"})
      */
     private $desires;
 
@@ -117,6 +129,41 @@ class User
         return $this;
     }
 
+    /**
+     * @return string
+     */
+    public function getLogin()
+    {
+        return $this->login;
+    }
+
+    /**
+     * @param string $login
+     * @return User
+     */
+    public function setLogin($login)
+    {
+        $this->login = $login;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPsw()
+    {
+        return $this->psw;
+    }
+
+    /**
+     * @param string $psw
+     * @return User
+     */
+    public function setPsw($psw)
+    {
+        $this->psw = $psw;
+        return $this;
+    }
 
     /**
      * Get id

@@ -9,6 +9,19 @@
     </style>
 {% endblock %}
 
+
+ {% block cat %}
+     {% if logedin == 0 %}
+      <ul>
+        <li><a href="http://127.0.0.1:8000">Pagrindinis</a></li>
+        <li><a href="http://127.0.0.1:8000/register">Registracija</a></li>
+        <li><a href="http://127.0.0.1:8000/login">Prisijungimas</a></li>
+      </ul>
+     {% else %}
+         {{ parent() }}
+     {% endif %}
+ {% endblock %}
+
 {% block body %}
     <div class="col-sm-4" id="search">
         <H3>Paieška</H3>
@@ -19,10 +32,10 @@
     </div>
 
     <div class="col-sm-8" id="offersContainer">
-        <H3>Skelbimai</H3>
         {% if advs | length == 0 %}
             <h3>Skelbimų pagal pasirinktą kriterijų nerasta.</h3>
         {% else %}
+            <H3>Skelbimai</H3>
             {% for a in advs %}
                 <div class="offer">
                     <img src="https://d30y9cdsu7xlg0.cloudfront.net/png/13694-200.png">

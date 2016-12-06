@@ -1,0 +1,30 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}Homepage - {{ parent() }}{% endblock %}
+
+{% block stylesheets %}
+    {#<link href="https://fonts.googleapis.com/css?family=Lato:100" rel="stylesheet" type="text/css">#}
+    {{ parent() }}
+    <style>
+    </style>
+{% endblock %}
+
+{% block cat %}
+    <ul>
+        <li><a href="http://127.0.0.1:8000">Pagrindinis</a></li>
+        <li><a href="http://127.0.0.1:8000/register">Registracija</a></li>
+        <li><a href="http://127.0.0.1:8000/login">Prisijungimas</a></li>
+    </ul>
+{% endblock %}
+
+{% block body %}
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    {{ form_end(form) }}
+    {{ form_end(form) }}
+    <button name="details" onclick="location.href = '/';">Grįžti</button>
+    </br>
+    </br>
+    {{ message }}
+{% endblock %}
+

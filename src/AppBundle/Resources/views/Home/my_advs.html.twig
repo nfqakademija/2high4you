@@ -12,7 +12,7 @@
 {% block body %}
     <abs>
         {% if user.adverts | length == 0 %}
-            <h3>Skelbimų pagal pasirinktą kriterijų nerasta.</h3>
+            <h3>Neturiu jokių skelbimų.</h3>
         {% else %}
             {% for adv in user.adverts %}
                 <div class="offer">

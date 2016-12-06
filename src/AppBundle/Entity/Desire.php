@@ -24,13 +24,13 @@ class Desire
     /**
      *
      * @ORM\ManyToOne(targetEntity="Advertisement", inversedBy="desires")
-     * @ORM\JoinColumn(name="adv_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="adv_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $advert;
     /**
      *
      * @ORM\ManyToOne(targetEntity="User", inversedBy="desires")
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $user;
 

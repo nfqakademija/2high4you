@@ -25,7 +25,7 @@ class Advertisement
     /**
      *
      * @ORM\ManyToOne(targetEntity="User", inversedBy="adverts")
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $user;
 
@@ -51,7 +51,7 @@ class Advertisement
     private $theme;
 
     /**
-     * @ORM\OneToMany(targetEntity="Desire", mappedBy="advert")
+     * @ORM\OneToMany(targetEntity="Desire", mappedBy="advert", cascade={"remove"})
      */
     private $desires;
     /**

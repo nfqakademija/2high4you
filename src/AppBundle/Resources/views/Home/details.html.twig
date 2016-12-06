@@ -23,6 +23,18 @@
     </style>
 {% endblock %}
 
+ {% block cat %}
+     {% if logedin == 0 %}
+         <ul>
+             <li><a href="http://127.0.0.1:8000">Pagrindinis</a></li>
+             <li><a href="http://127.0.0.1:8000/register">Registracija</a></li>
+             <li><a href="http://127.0.0.1:8000/login">Prisijungimas</a></li>
+         </ul>
+     {% else %}
+         {{ parent() }}
+     {% endif %}
+ {% endblock %}
+
 {% block body %}
     <h1>Skelbimo detalės:</h1>
     <p>{{ 'Vardas: ' ~ user.firstName }}</p>

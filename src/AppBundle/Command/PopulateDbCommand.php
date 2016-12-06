@@ -38,6 +38,8 @@ class PopulateDbCommand extends ContainerAwareCommand
         $em = $this->getContainer()->get('doctrine')->getManager();
 
         $user = new User();
+        $user->setLogin('jonasp');
+        $user->setPsw('johny');
         $user->setFirstName("Jonas");
         $user->setLastName("Pokstas");
         $user->setPhoneNumber("+37060646561");
@@ -62,6 +64,8 @@ class PopulateDbCommand extends ContainerAwareCommand
         $em->persist($des);
 
         $user = new User();
+        $user->setLogin('deividasl');
+        $user->setPsw('deivas');
         $user->setFirstName("Deividas");
         $user->setLastName("Lenkus");
         $user->setPhoneNumber("+37064411342");
@@ -86,6 +90,8 @@ class PopulateDbCommand extends ContainerAwareCommand
         $em->persist($des);
 
         $user = new User();
+        $user->setLogin('grazvydasj');
+        $user->setPsw('grazvis');
         $user->setFirstName("Grazvydas");
         $user->setLastName("Jovaisa");
         $user->setPhoneNumber("+37064411300");
@@ -111,6 +117,8 @@ class PopulateDbCommand extends ContainerAwareCommand
         $em->persist($des);
 
         $user = new User();
+        $user->setLogin('andriusb');
+        $user->setPsw('andriukas');
         $user->setFirstName("Andrius");
         $user->setLastName("Buivydas");
         $user->setPhoneNumber("+37065411312");
@@ -132,12 +140,6 @@ class PopulateDbCommand extends ContainerAwareCommand
         $des = new Desire();
         $des->setAdvert($adv);
         $des->setDescription("Noriu ismokti zaisti sachmatais.");
-        $des->setUser($user);
-        $em->persist($des);
-
-        $des = new Desire();
-        $des->setAdvert($adv);
-        $des->setDescription("Noriu ismokti zaisti saskemis.");
         $des->setUser($user);
         $em->persist($des);
 
