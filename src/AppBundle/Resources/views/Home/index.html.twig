@@ -10,23 +10,28 @@
 {% endblock %}
 
 {% block body %}
-    {{ form_start(form) }}
-    {{ form_widget(form) }}
-    {{ form_end(form) }}
-    {{ form_end(form) }}
-    <abs>
+    <div class="col-sm-4" id="search">
+        <H3>Paieška</H3>
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        {{ form_end(form) }}
+        {{ form_end(form) }}
+    </div>
+
+    <div class="col-sm-8" id="offersContainer">
+        <H3>Skelbimai</H3>
         {% if advs | length == 0 %}
             <h3>Skelbimų pagal pasirinktą kriterijų nerasta.</h3>
         {% else %}
             {% for a in advs %}
                 <div class="offer">
                     <img src="https://d30y9cdsu7xlg0.cloudfront.net/png/13694-200.png">
-                    <h4>{{ a.description }}</h4>
+                    <h5><b>{{ a.description }}</b></h5>
                     <p>{{ users[loop.index0].city }}</p>
-                    <button name="details" onclick="location.href = '/details/{{ a.id }}';">Daugiau</button>
+                    <button class="detailsButton btn btn-default"  name="details" onclick="location.href = '/details/{{ a.id }}';">Daugiau</button>
                 </div>
             {% endfor %}
         {% endif %}
-    </abs>
+    </div>
 {% endblock %}
 

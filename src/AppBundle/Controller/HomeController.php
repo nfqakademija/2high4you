@@ -42,13 +42,13 @@ class HomeController extends Controller
                 [
                     'choices'  => [
                         'Miestas' => 'City',
-                        'Mokau' => 'Offer',
-                        'Norėčiau išmokti' => 'Desire'
+                        'Pasiūlymai' => 'Offer',
+                        'Norai' => 'Desire'
                     ],
-                    'label' => 'Pasirinkte:'
+                    'label' => 'Ieškoti pagal:'
                 ]
             )
-            ->add('searchString', SearchType::class, ['label' => 'Įveskite:'])
+            ->add('searchString', SearchType::class, ['label' => 'Raktažodis:'])
             ->add('save', SubmitType::class, ['label' => 'Ieškoti skelbimų',])
             ->getForm();
         $form->handleRequest($request);
@@ -201,7 +201,15 @@ class HomeController extends Controller
         if (!$session->has('adv_id')) {
             $adv = new Advertisement();
             $form = $this->createFormBuilder($adv)
-                ->add('theme', TextType::class, ['label' => 'Tema: ',])
+                ->add('theme', ChoiceType::class,
+                    [
+                        'choices'  => [
+                            'Menas' => 'Art',
+                            'Mokslas' => 'Study',
+                            'Muzika' => 'Music'
+                        ],
+                        'label' => 'Tema:'
+                    ])
                 ->add('description', TextType::class, ['label' => 'Mokau: ',])
                 ->add('save', SubmitType::class, ['label' => 'Išsaugoti',])
                 ->getForm();

@@ -17,10 +17,9 @@
             {% for adv in user.adverts %}
                 <div class="offer">
                     <img src="https://d30y9cdsu7xlg0.cloudfront.net/png/13694-200.png">
-                    <h3>{{ adv.description }}</h3>
+                    <h5><b>{{ adv.description }}</b></h5>
                     <p>{{ user.city }}</p>
-                    <button name="details" onclick="location.href = '/details/{{ adv.id }}';">Daugiau</button>
-
+                    <button class="detailsButton" name="details" onclick="location.href = '/details/{{ adv.id }}';">Daugiau</button>
                 </div>
             {% endfor %}
         {% endif %}
