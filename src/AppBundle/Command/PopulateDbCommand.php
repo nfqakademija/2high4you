@@ -39,7 +39,7 @@ class PopulateDbCommand extends ContainerAwareCommand
 
         $user = new User();
         $user->setLogin('jonasp');
-        $user->setPsw(password_hash('johny',PASSWORD_DEFAULT));
+        $user->setPsw(password_hash('johny', PASSWORD_DEFAULT));
         $user->setFirstName("Jonas");
         $user->setLastName("Pokštas");
         $user->setPhoneNumber("+37060646561");
@@ -65,7 +65,7 @@ class PopulateDbCommand extends ContainerAwareCommand
 
         $user = new User();
         $user->setLogin('deividasl');
-        $user->setPsw(password_hash('deivas',PASSWORD_DEFAULT));
+        $user->setPsw(password_hash('deivas', PASSWORD_DEFAULT));
         $user->setFirstName("Deividas");
         $user->setLastName("Lenkus");
         $user->setPhoneNumber("+37064411342");
@@ -91,7 +91,7 @@ class PopulateDbCommand extends ContainerAwareCommand
 
         $user = new User();
         $user->setLogin('grazvydasj');
-        $user->setPsw(password_hash('garzvis',PASSWORD_DEFAULT));
+        $user->setPsw(password_hash('garzvis', PASSWORD_DEFAULT));
         $user->setFirstName("Gražvydas");
         $user->setLastName("Jovaiša");
         $user->setPhoneNumber("+37064411300");
@@ -118,7 +118,7 @@ class PopulateDbCommand extends ContainerAwareCommand
 
         $user = new User();
         $user->setLogin('test');
-        $user->setPsw(password_hash('test',PASSWORD_DEFAULT));
+        $user->setPsw(password_hash('test', PASSWORD_DEFAULT));
         $user->setFirstName("Andrius");
         $user->setLastName("Buivydas");
         $user->setPhoneNumber("+37065411312");
@@ -161,5 +161,4 @@ class PopulateDbCommand extends ContainerAwareCommand
 
         $output->writeln("Database populated!");
     }
-
 }
