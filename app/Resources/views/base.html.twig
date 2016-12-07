@@ -31,7 +31,6 @@
         letter-spacing: 20px;
     }
 
-
     ul {
         list-style-type: none;
         margin: 0;
@@ -126,6 +125,10 @@
     #search button {
         right:0;
     }
+    .rightMenu {
+        position: absolute;
+        right:50px
+    }
 </style>
 <body>
 <div class="title">2high4you</div>
@@ -136,7 +139,7 @@
     <li><a href="http://127.0.0.1:8000/new_adv">Naujas skelbimas</a></li>
     <li><a href="http://127.0.0.1:8000/my_advs">Mano skelbimai</a></li>
     <li><a href="http://127.0.0.1:8000/logout">Atsijungti</a></li>
-    <li><a href="http://127.0.0.1:8000/unregister">Išsiregistruoti</a></li>
+    <li class="rightMenu"><a href="http://127.0.0.1:8000/unregister">Išsiregistruoti</a></li>
 </ul>
 {% endblock %}
 

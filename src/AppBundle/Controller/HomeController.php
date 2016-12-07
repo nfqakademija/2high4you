@@ -328,6 +328,7 @@ class HomeController extends Controller
                     ]
                 );
             } else {
+                $user->setPsw(password_hash($user->getPsw(),PASSWORD_DEFAULT));
                 $em->persist($user);
                 $em->flush();
                 $session->set('user_id', $user->getId());
@@ -369,7 +370,7 @@ class HomeController extends Controller
             $repUser = $em->getRepository("AppBundle:User");
             $user = $repUser->findOneByLogin($log->getLogin());
             if ($user) {
-                if ($user->getPsw() === $log->getPsw()) {
+                if(password_verify($log->getPsw(), $user->getPsw())) {
                     $session->set('user_id', $user->getId());
                     return $this->redirectToRoute('homepage');
                 } else {

@@ -39,9 +39,9 @@ class PopulateDbCommand extends ContainerAwareCommand
 
         $user = new User();
         $user->setLogin('jonasp');
-        $user->setPsw('johny');
+        $user->setPsw(password_hash('johny',PASSWORD_DEFAULT));
         $user->setFirstName("Jonas");
-        $user->setLastName("Pokstas");
+        $user->setLastName("Pokštas");
         $user->setPhoneNumber("+37060646561");
         $user->setEmail("j.pokstas@gmail.com");
         $user->setCity("Kaunas");
@@ -59,18 +59,18 @@ class PopulateDbCommand extends ContainerAwareCommand
 
         $des = new Desire();
         $des->setAdvert($adv);
-        $des->setDescription("Noriu ismokti programavimo.");
+        $des->setDescription("Noriu išmokti programavimo.");
         $des->setUser($user);
         $em->persist($des);
 
         $user = new User();
         $user->setLogin('deividasl');
-        $user->setPsw('deivas');
+        $user->setPsw(password_hash('deivas',PASSWORD_DEFAULT));
         $user->setFirstName("Deividas");
         $user->setLastName("Lenkus");
         $user->setPhoneNumber("+37064411342");
         $user->setEmail("d.lenkus@gmail.com");
-        $user->setCity("Siauliai");
+        $user->setCity("Šiauliai");
         $user->setCountry("Lietuva");
         $em->persist($user);
 
@@ -85,15 +85,15 @@ class PopulateDbCommand extends ContainerAwareCommand
 
         $des = new Desire();
         $des->setAdvert($adv);
-        $des->setDescription("Noriu ismokti istorijos.");
+        $des->setDescription("Noriu išmokti istorijos.");
         $des->setUser($user);
         $em->persist($des);
 
         $user = new User();
         $user->setLogin('grazvydasj');
-        $user->setPsw('grazvis');
-        $user->setFirstName("Grazvydas");
-        $user->setLastName("Jovaisa");
+        $user->setPsw(password_hash('garzvis',PASSWORD_DEFAULT));
+        $user->setFirstName("Gražvydas");
+        $user->setLastName("Jovaiša");
         $user->setPhoneNumber("+37064411300");
         $user->setEmail("g.jovaisa@gmail.com");
         $user->setCity("Vilnius");
@@ -112,13 +112,13 @@ class PopulateDbCommand extends ContainerAwareCommand
 
         $des = new Desire();
         $des->setAdvert($adv);
-        $des->setDescription("Noriu ismokti kulinarijos.");
+        $des->setDescription("Noriu išmokti kulinarijos.");
         $des->setUser($user);
         $em->persist($des);
 
         $user = new User();
-        $user->setLogin('andriusb');
-        $user->setPsw('andriukas');
+        $user->setLogin('test');
+        $user->setPsw(password_hash('test',PASSWORD_DEFAULT));
         $user->setFirstName("Andrius");
         $user->setLastName("Buivydas");
         $user->setPhoneNumber("+37065411312");
@@ -131,34 +131,35 @@ class PopulateDbCommand extends ContainerAwareCommand
         $adv = new Advertisement();
         $adv->setCreationDate(new \DateTime('now'));
         $adv->setCreationTime(new \DateTime('now'));
-        $adv->setTheme("Sokiai");
+        $adv->setTheme("Šokiai");
         $adv->setUser($user);
-        $adv->setDescription("Mokau sokti.");
+        $adv->setDescription("Mokau šokti.");
         $adv->setStatus("enabled");
         $em->persist($adv);
 
         $des = new Desire();
         $des->setAdvert($adv);
-        $des->setDescription("Noriu ismokti zaisti sachmatais.");
+        $des->setDescription("Noriu išmokti žaisti šachmatais.");
         $des->setUser($user);
         $em->persist($des);
 
         $adv = new Advertisement();
         $adv->setCreationDate(new \DateTime('now'));
         $adv->setCreationTime(new \DateTime('now'));
-        $adv->setTheme("Begimas");
+        $adv->setTheme("Bėgimas");
         $adv->setUser($user);
-        $adv->setDescription("Vedu begimo treniruotes.");
+        $adv->setDescription("Vedu bėgimo treniruotes.");
         $adv->setStatus("enabled");
         $em->persist($adv);
 
         $des = new Desire();
         $des->setAdvert($adv);
-        $des->setDescription("Noriu ismokti zaisti krepsini.");
+        $des->setDescription("Noriu išmokti žaisti krepšinį.");
         $des->setUser($user);
         $em->persist($des);
         $em->flush();
 
         $output->writeln("Database populated!");
     }
+
 }
