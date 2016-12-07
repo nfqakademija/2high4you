@@ -40,7 +40,9 @@ class HomeController extends Controller
             $users[] = $repUser->findOneById($a->getUser());
         }
 
-        $session->set('my_advs', 0);
+        if($session->get('my_advs'))
+            $session->set('my_advs', 0);
+
         $searchAdv = new SearchAdv();
         $form = $this->createFormBuilder($searchAdv)
             ->add(
@@ -80,21 +82,32 @@ class HomeController extends Controller
 
     /**
      * @Route("/details/{id}", name="offer_details")
+     *
      */
     public function detailsAction(Request $request, $id)
     {
 
         $session = $request->getSession();
-        if(!$session->has('user_id'))
-            return $this->redirectToRoute('login');
         $em = $this->getDoctrine()->getManager();
         $repAdv = $em->getRepository("AppBundle:Advertisement");
+        $disabledAdv = $repAdv->findByStatus('disabled');
+        if($disabledAdv & $session->get('my_advs') !== 1)
+            foreach($disabledAdv as $a)
+                if($a->getId() == $id)
+                    return $this->redirectToRoute('homepage');
         $adv = $repAdv->find($id);
+        if($adv === NULL)
+            return $this->redirectToRoute('homepage');
         $repUser = $em->getRepository("AppBundle:User");
-        $user = $repUser->findOneById($adv->getUser());
-        $logedin = 0;
-        if ($session->has('user_id')) {
+        $user = $repUser->find($adv->getUser());
+        if($session->has('user_id'))
             $logedin = 1;
+        else
+            $logedin = 0;
+
+        if ($session->get('my_advs') === 1) {
+            if($adv->getUser()->getId() !== $session->get('user_id'))
+                return $this->redirectToRoute('myAdvs');
             $s = new SearchAdv();
             if ($adv->getStatus() === 'enabled') {
                 $form = $this->createFormBuilder($s)
@@ -110,21 +123,15 @@ class HomeController extends Controller
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
                 if ($form->get('delete')->isClicked()) {
-                    $repDes = $em->getRepository("AppBundle:Desire");
-                    $des = $repDes->findByAdvert($adv);
-                    foreach ($des as $d) {
-                        $em->remove($d);
-                    }
                     $em->remove($adv);
                     $em->flush();
-
                     return $this->redirectToRoute('myAdvs');
                 } else {
-                    if ($adv->getStatus() === 'enabled') {
+                    if ($adv->getStatus() === 'enabled')
                         $adv->setStatus('disabled');
-                    } else {
+                    else
                         $adv->setStatus('enabled');
-                    }
+
                     $em->flush();
                     if ($adv->getStatus() === 'enabled') {
                         $form = $this->createFormBuilder($s)
@@ -278,6 +285,10 @@ class HomeController extends Controller
      */
     public function registerAction(Request $request)
     {
+        $session = $request->getSession();
+        if($session->has('user_id'))
+            return $this->redirectToRoute('homepage');
+
         $user = new User();
         $form = $this->createFormBuilder($user)
             ->add('login', TextType::class, ['label' => 'Prisijungimo vardas: ',])
@@ -288,7 +299,7 @@ class HomeController extends Controller
             ->add('phoneNumber', TextType::class, ['label' => 'Tel. numeris: ',])
             ->add('city', TextType::class, ['label' => 'Miestas: ',])
             ->add('country', TextType::class, ['label' => 'Šalis: ',])
-            ->add('save', SubmitType::class, ['label' => 'Išsaugoti',])
+            ->add('save', SubmitType::class, ['label' => 'Registruotis',])
             ->getForm();
 
         $message = "";
@@ -311,7 +322,6 @@ class HomeController extends Controller
             {
                 $em->persist($user);
                 $em->flush();
-                $session = $request->getSession();
                 $session->set('user_id', $user->getId());
                 return $this->redirectToRoute('homepage');
             }
@@ -329,6 +339,10 @@ class HomeController extends Controller
      */
     public function loginAction(Request $request)
     {
+        $session = $request->getSession();
+        if($session->has('user_id'))
+            return $this->redirectToRoute('homepage');
+
         $log = new LogIn();
         $form = $this->createFormBuilder($log)
             ->add('login', TextType::class, ['label' => 'Prisijungimo vardas: ',])
@@ -348,7 +362,6 @@ class HomeController extends Controller
             {
                 if($user->getPsw() === $log->getPsw())
                 {
-                    $session = $request->getSession();
                     $session->set('user_id', $user->getId());
                     return $this->redirectToRoute('homepage');
                 }
