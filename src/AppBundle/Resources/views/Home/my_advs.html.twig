@@ -14,12 +14,36 @@
         {% if user.adverts | length == 0 %}
             <h3>Neturiu jokių skelbimų.</h3>
         {% else %}
-            {% for adv in user.adverts %}
+            {% for a in user.adverts %}
                 <div class="offer">
-                    <img src="https://d30y9cdsu7xlg0.cloudfront.net/png/13694-200.png">
-                    <h5><b>{{ adv.description }}</b></h5>
+                    {%  if a.theme == 'Menas' %}
+                        <img src="https://d30y9cdsu7xlg0.cloudfront.net/png/13694-200.png">
+                    {% endif %}
+
+                    {%  if a.theme == 'Matematika' %}
+                        <img src="https://openclipart.org/image/2400px/svg_to_png/196957/mono-edu-mathematics.png">
+                    {% endif %}
+
+                    {%  if a.theme == 'Vairavimas' %}
+                        <img src="http://www.free-icons-download.net/images/car-icon-46226.png">
+                    {% endif %}
+
+                    {%  if a.theme == 'Sokiai' %}
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Party_icon.svg/2000px-Party_icon.svg.png">
+                    {% endif %}
+
+                    {%  if a.theme == 'Begimas' %}
+                        <img src="http://www.wpclipart.com/recreation/miscellaneous/running_symbol.png">
+                    {% endif %}
+
+                    {%  if a.theme != 'Begimas' and a.theme != 'Sokiai' and a.theme !='Vairavimas' and a.theme !='Matematika' and a.theme !='Menas'  %}
+                        <img src="https://s16.postimg.org/9asf1pdx1/Untitled.jpg">
+                    {% endif %}
+
+
+                    <h5><b>{{ a.description }}</b></h5>
                     <p>{{ user.city }}</p>
-                    <button class="detailsButton" name="details" onclick="location.href = '/details/{{ adv.id }}';">Daugiau</button>
+                    <button class="detailsButton" name="details" onclick="location.href = '/details/{{ a.id }}';">Daugiau</button>
                 </div>
             {% endfor %}
         {% endif %}

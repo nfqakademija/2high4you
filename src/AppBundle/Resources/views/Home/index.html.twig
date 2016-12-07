@@ -38,13 +38,37 @@
             <H3>Skelbimai</H3>
             {% for a in advs %}
                 <div class="offer">
+                    {%  if a.theme == 'Menas' %}
                     <img src="https://d30y9cdsu7xlg0.cloudfront.net/png/13694-200.png">
+                    {% endif %}
+
+                    {%  if a.theme == 'Matematika' %}
+                        <img src="https://openclipart.org/image/2400px/svg_to_png/196957/mono-edu-mathematics.png">
+                    {% endif %}
+
+                    {%  if a.theme == 'Vairavimas' %}
+                        <img src="http://www.free-icons-download.net/images/car-icon-46226.png">
+                    {% endif %}
+
+                    {%  if a.theme == 'Sokiai' %}
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Party_icon.svg/2000px-Party_icon.svg.png">
+                    {% endif %}
+
+                    {%  if a.theme == 'Begimas' %}
+                        <img src="http://www.wpclipart.com/recreation/miscellaneous/running_symbol.png">
+                    {% endif %}
+
+                    {%  if a.theme != 'Begimas' and a.theme != 'Sokiai' and a.theme !='Vairavimas' and a.theme !='Matematika' and a.theme !='Menas'  %}
+                        <img src="https://s16.postimg.org/9asf1pdx1/Untitled.jpg">
+                    {% endif %}
+
                     <h5><b>{{ a.description }}</b></h5>
                     <p>{{ users[loop.index0].city }}</p>
                     <button class="detailsButton btn btn-default"  name="details" onclick="location.href = '/details/{{ a.id }}';">Daugiau</button>
                 </div>
             {% endfor %}
         {% endif %}
+
     </div>
 {% endblock %}
 
