@@ -8,7 +8,6 @@
 
 namespace AppBundle\Entity;
 
-
 class LogIn
 {
     /**
@@ -55,8 +54,4 @@ class LogIn
         $this->psw = $psw;
         return $this;
     }
-
-
-
-
 }

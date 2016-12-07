@@ -25,16 +25,14 @@ class HomeController extends Controller
      */
     public function indexAction(Request $request)
     {
-
         $session = $request->getSession();
         $em = $this->getDoctrine()->getManager();
         $repAdv = $em->getRepository("AppBundle:Advertisement");
         $advs = $repAdv->findByStatus('enabled');
         $repUser = $em->getRepository("AppBundle:User");
-        if($session->has('user_id')) {
+        if ($session->has('user_id')) {
             $logedin = 1; 
-        }
-        else {
+        } else {
             $logedin = 0; 
         }
         $users = [];
@@ -42,7 +40,7 @@ class HomeController extends Controller
             $users[] = $repUser->findOneById($a->getUser());
         }
 
-        if($session->get('my_advs')) {
+        if ($session->get('my_advs')) {
             $session->set('my_advs', 0); 
         }
 
@@ -88,14 +86,13 @@ class HomeController extends Controller
      */
     public function detailsAction(Request $request, $id)
     {
-
         $session = $request->getSession();
         $em = $this->getDoctrine()->getManager();
         $repAdv = $em->getRepository("AppBundle:Advertisement");
         $disabledAdv = $repAdv->findByStatus('disabled');
-        if($disabledAdv & $session->get('my_advs') !== 1) {
+        if ($disabledAdv & $session->get('my_advs') !== 1) {
             foreach($disabledAdv as $a) {
-                if($a->getId() == $id) {
+                if ($a->getId() == $id) {
                     return $this->redirectToRoute('homepage'); 
                 } 
             } 
@@ -106,15 +103,14 @@ class HomeController extends Controller
         }
         $repUser = $em->getRepository("AppBundle:User");
         $user = $repUser->find($adv->getUser());
-        if($session->has('user_id')) {
+        if ($session->has('user_id')) {
             $logedin = 1; 
-        }
-        else {
+        } else {
             $logedin = 0; 
         }
 
         if ($session->get('my_advs') === 1) {
-            if($adv->getUser()->getId() !== $session->get('user_id')) {
+            if ($adv->getUser()->getId() !== $session->get('user_id')) {
                 return $this->redirectToRoute('myAdvs'); 
             }
             $s = new SearchAdv();
@@ -138,8 +134,7 @@ class HomeController extends Controller
                 } else {
                     if ($adv->getStatus() === 'enabled') {
                         $adv->setStatus('disabled'); 
-                    }
-                    else {
+                    } else {
                         $adv->setStatus('enabled'); 
                     }
 
@@ -188,7 +183,7 @@ class HomeController extends Controller
     {
         $session = $request->getSession();
         if(!$session->has('user_id')) {
-            return $this->redirectToRoute('login'); 
+            return $this->redirectToRoute('login');
         }
         if (!$session->has('adv_id')) {
             $adv = new Advertisement();
@@ -234,8 +229,8 @@ class HomeController extends Controller
     public function newDesAction(Request $request)
     {
         $session = $request->getSession();
-        if(!$session->has('user_id')) {
-            return $this->redirectToRoute('login'); 
+        if (!$session->has('user_id')) {
+            return $this->redirectToRoute('login');
         }
         $des = new Desire();
         $form = $this->createFormBuilder($des)
@@ -276,8 +271,8 @@ class HomeController extends Controller
     public function myAdvsAction(Request $request)
     {
         $session = $request->getSession();
-        if(!$session->has('user_id')) {
-            return $this->redirectToRoute('login'); 
+        if (!$session->has('user_id')) {
+            return $this->redirectToRoute('login');
         }
         $em = $this->getDoctrine()->getManager();
         $repUser = $em->getRepository("AppBundle:User");
@@ -293,15 +288,14 @@ class HomeController extends Controller
         );
     }
 
-
     /**
      * @Route("/register", name="registration")
      */
     public function registerAction(Request $request)
     {
         $session = $request->getSession();
-        if($session->has('user_id')) {
-            return $this->redirectToRoute('homepage'); 
+        if ($session->has('user_id')) {
+            return $this->redirectToRoute('homepage');
         }
 
         $user = new User();
@@ -324,7 +318,7 @@ class HomeController extends Controller
             $em = $this->getDoctrine()->getManager();
             $repUser = $em->getRepository("AppBundle:User");
             $us = $repUser->findOneByLogin($user->getLogIn());
-            if($us) {
+            if ($us) {
                 $message = 'Toks prisijungimo vardas jau egzistuoja. Bandykite registruotis kitu vardu.';
                 return $this->render(
                     'AppBundle:Home:register.html.twig',
@@ -333,9 +327,7 @@ class HomeController extends Controller
                         'message' => $message,
                     ]
                 );
-            }
-            else
-            {
+            } else {
                 $em->persist($user);
                 $em->flush();
                 $session->set('user_id', $user->getId());
@@ -350,7 +342,6 @@ class HomeController extends Controller
                 'message' => $message,
             ]
         );
-
     }
     /**
      * @Route("/login", name="login")
@@ -358,8 +349,8 @@ class HomeController extends Controller
     public function loginAction(Request $request)
     {
         $session = $request->getSession();
-        if($session->has('user_id')) {
-            return $this->redirectToRoute('homepage'); 
+        if ($session->has('user_id')) {
+            return $this->redirectToRoute('homepage');
         }
 
         $log = new LogIn();
@@ -377,13 +368,11 @@ class HomeController extends Controller
             $em = $this->getDoctrine()->getManager();
             $repUser = $em->getRepository("AppBundle:User");
             $user = $repUser->findOneByLogin($log->getLogin());
-            if($user) {
-                if($user->getPsw() === $log->getPsw()) {
+            if ($user) {
+                if ($user->getPsw() === $log->getPsw()) {
                     $session->set('user_id', $user->getId());
                     return $this->redirectToRoute('homepage');
-                }
-                else
-                {
+                } else {
                     $message = 'Nurodytas slaptažodis neteisingas!';
                     return $this->render(
                         'AppBundle:Home:login.html.twig',
@@ -393,9 +382,7 @@ class HomeController extends Controller
                         ]
                     );
                 }
-            }
-            else
-            {
+            } else {
                 $message = 'Vartotojas nurodytu prisijungimo vardu neegzistuoja!';
                 return $this->render(
                     'AppBundle:Home:login.html.twig',
@@ -405,7 +392,6 @@ class HomeController extends Controller
                     ]
                 );
             }
-
         }
 
         return $this->render(
@@ -415,7 +401,6 @@ class HomeController extends Controller
                 'message' => $message,
             ]
         );
-
     }
 
     /**
@@ -424,12 +409,11 @@ class HomeController extends Controller
     public function logoutAction(Request $request)
     {
         $session = $request->getSession();
-        if(!$session->has('user_id')) {
-            return $this->redirectToRoute('login'); 
+        if (!$session->has('user_id')) {
+            return $this->redirectToRoute('login');
         }
         $session->clear();
         return $this->redirectToRoute('homepage');
-
     }
 
     /**
@@ -438,8 +422,8 @@ class HomeController extends Controller
     public function unregisterAction(Request $request)
     {
         $session = $request->getSession();
-        if(!$session->has('user_id')) {
-            return $this->redirectToRoute('login'); 
+        if (!$session->has('user_id')) {
+            return $this->redirectToRoute('login');
         }
         $em = $this->getDoctrine()->getManager();
         $repUser = $em->getRepository("AppBundle:User");
@@ -448,7 +432,5 @@ class HomeController extends Controller
         $em->flush();
         $session->clear();
         return $this->redirectToRoute('homepage');
-
     }
 }
-
