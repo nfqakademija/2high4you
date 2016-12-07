@@ -84,8 +84,10 @@ class HomeController extends Controller
     public function detailsAction(Request $request, $id)
     {
 
-        $em = $this->getDoctrine()->getManager();
         $session = $request->getSession();
+        if(!$session->has('user_id'))
+            return $this->redirectToRoute('login');
+        $em = $this->getDoctrine()->getManager();
         $repAdv = $em->getRepository("AppBundle:Advertisement");
         $adv = $repAdv->find($id);
         $repUser = $em->getRepository("AppBundle:User");
@@ -167,6 +169,8 @@ class HomeController extends Controller
     public function newAdvAction(Request $request)
     {
         $session = $request->getSession();
+        if(!$session->has('user_id'))
+            return $this->redirectToRoute('login');
         if (!$session->has('adv_id')) {
             $adv = new Advertisement();
             $form = $this->createFormBuilder($adv)
@@ -211,6 +215,8 @@ class HomeController extends Controller
     public function newDesAction(Request $request)
     {
         $session = $request->getSession();
+        if(!$session->has('user_id'))
+            return $this->redirectToRoute('login');
         $des = new Desire();
         $form = $this->createFormBuilder($des)
             ->add('description', TextType::class, ['label' => 'Norėčiau išmokti: ',])
@@ -250,6 +256,8 @@ class HomeController extends Controller
     public function myAdvsAction(Request $request)
     {
         $session = $request->getSession();
+        if(!$session->has('user_id'))
+            return $this->redirectToRoute('login');
         $em = $this->getDoctrine()->getManager();
         $repUser = $em->getRepository("AppBundle:User");
         $user = $repUser->findOneById($session->get('user_id'));
@@ -381,6 +389,8 @@ class HomeController extends Controller
     public function logoutAction(Request $request)
     {
         $session = $request->getSession();
+        if(!$session->has('user_id'))
+            return $this->redirectToRoute('login');
         $session->clear();
         return $this->redirectToRoute('homepage');
 
@@ -392,6 +402,8 @@ class HomeController extends Controller
     public function unregisterAction(Request $request)
     {
         $session = $request->getSession();
+        if(!$session->has('user_id'))
+            return $this->redirectToRoute('login');
         $em = $this->getDoctrine()->getManager();
         $repUser = $em->getRepository("AppBundle:User");
         $user = $repUser->find($session->get('user_id'));
