@@ -31,9 +31,9 @@ class HomeController extends Controller
         $advs = $repAdv->findByStatus('enabled');
         $repUser = $em->getRepository("AppBundle:User");
         if ($session->has('user_id')) {
-            $logedin = 1; 
+            $logedin = 1;
         } else {
-            $logedin = 0; 
+            $logedin = 0;
         }
         $users = [];
         foreach ($advs as $a) {
@@ -41,7 +41,7 @@ class HomeController extends Controller
         }
 
         if ($session->get('my_advs')) {
-            $session->set('my_advs', 0); 
+            $session->set('my_advs', 0);
         }
 
         $searchAdv = new SearchAdv();
@@ -91,27 +91,27 @@ class HomeController extends Controller
         $repAdv = $em->getRepository("AppBundle:Advertisement");
         $disabledAdv = $repAdv->findByStatus('disabled');
         if ($disabledAdv & $session->get('my_advs') !== 1) {
-            foreach($disabledAdv as $a) {
+            foreach ($disabledAdv as $a) {
                 if ($a->getId() == $id) {
-                    return $this->redirectToRoute('homepage'); 
-                } 
-            } 
+                    return $this->redirectToRoute('homepage');
+                }
+            }
         }
         $adv = $repAdv->find($id);
-        if($adv === null) {
-            return $this->redirectToRoute('homepage'); 
+        if ($adv === null) {
+            return $this->redirectToRoute('homepage');
         }
         $repUser = $em->getRepository("AppBundle:User");
         $user = $repUser->find($adv->getUser());
         if ($session->has('user_id')) {
-            $logedin = 1; 
+            $logedin = 1;
         } else {
-            $logedin = 0; 
+            $logedin = 0;
         }
 
         if ($session->get('my_advs') === 1) {
             if ($adv->getUser()->getId() !== $session->get('user_id')) {
-                return $this->redirectToRoute('myAdvs'); 
+                return $this->redirectToRoute('myAdvs');
             }
             $s = new SearchAdv();
             if ($adv->getStatus() === 'enabled') {
@@ -133,9 +133,9 @@ class HomeController extends Controller
                     return $this->redirectToRoute('myAdvs');
                 } else {
                     if ($adv->getStatus() === 'enabled') {
-                        $adv->setStatus('disabled'); 
+                        $adv->setStatus('disabled');
                     } else {
-                        $adv->setStatus('enabled'); 
+                        $adv->setStatus('enabled');
                     }
 
                     $em->flush();
@@ -182,7 +182,7 @@ class HomeController extends Controller
     public function newAdvAction(Request $request)
     {
         $session = $request->getSession();
-        if(!$session->has('user_id')) {
+        if (!$session->has('user_id')) {
             return $this->redirectToRoute('login');
         }
         if (!$session->has('adv_id')) {
